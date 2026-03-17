@@ -11,6 +11,7 @@ Expect frequent changes to structure, docs, and experiments.
 
 - `firecracker-docs/`: documentation about Firecracker and snapshotting internals.
 - `docs/`: project-specific notes and supporting documentation.
+- `examples/`: runnable experiments and proof-of-concept demos.
 
 ## Quick start
 
@@ -27,3 +28,11 @@ This will clone:
 into:
 
 - `./firecracker`
+
+## Example: snapshot rollback after code failure
+
+See:
+
+- `examples/firecracker-snapshot-rollback/README.md`
+
+This example boots a microVM, snapshots a working Python API, injects a broken change, detects failure, and rolls back by loading the previous snapshot.
