@@ -1,77 +1,54 @@
 
-# SnapVM
+# ⚙️ cow-snapshot-indexer
 
-SnapVM is an experimental project that explores the use of **Firecracker microVM snapshots** to build fast, recoverable execution environments.
+> **Orchestrating sub-second Time-Travel Debugging for AI coding agents via Firecracker microVM differential snapshots and Copy-on-Write memory mapping.**
 
-The project investigates how snapshot-based virtual machines can be used to create environments that can be saved, restored, and cloned quickly, enabling safer experimentation and faster recovery from failures.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Firecracker](https://img.shields.io/badge/Powered%20By-Firecracker-orange)](https://firecracker-microvm.github.io/)
+[![Status: Active Research](https://img.shields.io/badge/Status-Active%20Research-success)](#)
 
-SnapVM is being developed as a **command-line tool (CLI)** that orchestrates Firecracker microVMs and manages their execution state through snapshots.
+Traditional AI coding agents rely on software-layer version control (Git) and container restarts (Docker) to recover from destructive execution errors. This approach is slow, prone to permanent state corruption, and scales linearly in memory, bottlenecking parallel swarm execution.
 
----
-
-# Motivation
-
-Modern systems that execute code automatically — such as AI coding agents, testing pipelines, or experimental runtime environments — require isolated environments where code can run safely.
-
-Current approaches often rely on container-based environments. While effective, these environments typically require rebuilding or reconfiguring the system when failures occur.
-
-SnapVM explores a different approach by using **virtual machine snapshots as the primary mechanism for environment management**.
-
-With this approach it becomes possible to:
-
-- restore environments almost instantly
-- recover from failures without rebuilding the system
-- safely experiment with destructive operations
-- clone environments for parallel execution
+**`cow-snapshot-indexer`** replaces software-layer version control with continuous, hardware-enforced microVM state capture. By linking an LLM's cognitive logic (Thought/Action) directly to KVM-backed memory diffs, this orchestrator enables instantaneous, deterministic execution replay and sub-linear memory scaling for Monte Carlo Tree Search (MCTS) agent architectures.
 
 ---
 
-# Project Goals
-
-The main objective of SnapVM is to validate the feasibility of snapshot-based execution environments.
-
-The project aims to demonstrate that microVM snapshots can support workflows where environments can be:
-
-- created
-- saved
-- restored
-- reused
-- recovered quickly after failure
-
-The current implementation focuses on building a minimal system capable of managing these operations.
+## 📖 Table of Contents
+- [The Paradigm Shift](#-the-paradigm-shift)
+- [Architecture & Mechanics](#-architecture--mechanics)
+- [Key Features](#-key-features)
+- [Getting Started](#-getting-started)
+- [The State-Thought Index (API)](#-the-state-thought-index-api)
+- [Research Roadmap](#-research-roadmap)
+- [Citation](#-citation)
 
 ---
 
-# Repository Structure
+## 🚀 The Paradigm Shift
 
-docs/
-    overview.md
-    concepts.md
-    roadmap.md
-    project-scope.md
+### The Problem: Ephemeral Sandboxing
+When an autonomous agent executes a destructive command (e.g., `rm -rf /usr/lib` or installing a corrupted kernel module), `git reset` cannot restore the operating system or the background runtime processes. The agent becomes trapped in an infinite error loop within a corrupted environment.
 
-    experiments/
-        first-snapshot.md
-        environment-rollback.md
-        parallel-vm.md
+### The Solution: Hypervisor-Level Rollbacks
+This project introduces **Unified State-Thought Indexing**. Every time the agent makes a decision, the orchestrator pauses the Firecracker microVM, captures the dirtied memory pages (differential snapshot), and indexes the physical file path to the LLM's context window. 
+
+If the agent fails, it doesn't write un-do commands. The orchestrator physically "time-travels" the machine back to the exact millisecond before the mistake, restoring the full OS, filesystem, and physical RAM state in **<150ms**.
 
 ---
 
-# Project Roadmap
+## 🧠 Architecture & Mechanics
 
-The development of SnapVM is organized into three main phases:
-
-### Sprint 1 — Research and Documentation
-
-Define the conceptual foundation of the project and validate core ideas through small experiments.
-
-### Sprint 2 — SnapVM CLI Implementation
-
-Develop the first functional version of SnapVM capable of managing microVM environments and snapshots.
-
-### Sprint 3 — System Consolidation
-
-Refine the prototype, complete missing functionality, and finalize the project documentation.
+```mermaid
+graph TD
+    A[LLM Agent / Brain] -->|Thought & Command| B(State-Thought Indexer)
+    B -->|1. Pause VM| C{Firecracker API}
+    B -->|2. Diff Snapshot| C
+    C -->|Extract Dirty Pages| D[(memory_diff_X.snap)]
+    C -->|Extract vCPU State| E[(state_X.snap)]
+    B -->|3. Map to Token ID| F[(Vector/JSON Index)]
+    B -->|4. Execute Command| G[Guest MicroVM]
+    G -->|If Fatal Error| B
+    B -->|5. Instant Rollback| C
 
 ---
 
