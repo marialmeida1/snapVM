@@ -1,5 +1,8 @@
 # Firecracker Snapshot Implementation Walkthrough
 
+> Last documented update: 2026-03-19  
+> Author: Arthur Carvalho
+
 This guide explains **how snapshotting is implemented inside Firecracker**, starting from API requests and ending with serialization/restoration internals.
 
 If you are new to Firecracker, read this as: **HTTP request -> API parsing -> VMM action -> snapshot engine**.

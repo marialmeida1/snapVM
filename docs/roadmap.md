@@ -1,5 +1,8 @@
 # SnapVM Roadmap
 
+> Last documented update: 2026-03-19  
+> Author: Mariana Almeida
+
 This document outlines the development roadmap for the SnapVM project.
 
 SnapVM is an experimental project that explores the use of Firecracker microVM snapshots to build fast, recoverable execution environments.

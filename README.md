@@ -1,5 +1,8 @@
 # snapVM
 
+> Last documented update: 2026-03-16  
+> Author: Arthur Carvalho
+
 `snapVM` is a research project exploring how Firecracker snapshots can improve agentic code execution workflows.
 
 ## Project status
