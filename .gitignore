@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Editor / IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Maven local caches
+.m2/
+benchmark/.m2/
+
+# Maven / Java build output
+target/
+benchmark/target/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
