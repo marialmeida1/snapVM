@@ -1,5 +1,8 @@
 # Concepts
 
+> Last documented update: 2026-03-19  
+> Author: Mariana Almeida
+
 This document introduces the core concepts required to understand the ideas explored in SnapVM.  
 The goal is **not to provide deep theoretical explanations**, but to give enough context to understand the project and the experiments documented in this repository.
 

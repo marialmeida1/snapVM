@@ -1,5 +1,8 @@
 # Managing Snapshots for One microVM
 
+> Last documented update: 2026-03-16 
+> Author: Arthur Carvalho
+
 This guide is operational: how to **create, store, rotate, and restore snapshots** for a specific microVM.
 
 Use it as a runbook when you already understand Firecracker basics and need repeatable snapshot workflows.

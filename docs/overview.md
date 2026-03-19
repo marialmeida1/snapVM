@@ -1,5 +1,8 @@
 # SnapVM Overview
 
+> Last documented update: 2026-03-19  
+> Author: Mariana Almeida
+
 ## What is SnapVM
 
 SnapVM is an experimental tool that explores the use of **Firecracker microVM snapshots** to create fast, recoverable execution environments.
