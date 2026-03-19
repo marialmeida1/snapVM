@@ -9,7 +9,7 @@ Expect frequent changes to structure, docs, and experiments.
 
 ## What this repository contains
 
-- `firecracker-docs/`: documentation about Firecracker and snapshotting internals.
+- `docs/firecracker-docs/`: documentation about Firecracker and snapshotting internals.
 - `docs/`: project-specific notes and supporting documentation.
 
 ## Quick start
