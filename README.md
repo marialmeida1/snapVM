@@ -80,4 +80,4 @@ Refine the prototype, complete missing functionality, and finalize the project d
 
 [![Gustavo](https://img.shields.io/badge/GitHub-Gustavo-d73a49?style=for-the-badge&logo=github)](https://github.com/GhrCastro)
 
-[![Mariana](https://img.shields.io/badge/GitHub-Mariana-6f42c1?style=for-the-badge&logo=github)](https://github.com/marialmeid)
+[![Mariana](https://img.shields.io/badge/GitHub-Mariana-6f42c1?style=for-the-badge&logo=github)](https://github.com/marialmeida1)
