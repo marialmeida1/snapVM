@@ -74,8 +74,6 @@ Refine the prototype, complete missing functionality, and finalize the project d
 
 # Contributors
 
-[![Alice](https://img.shields.io/badge/GitHub-Alice-1f6feb?style=for-the-badge&logo=github)](https://github.com/alicesalim)
-
 [![Arthur](https://img.shields.io/badge/GitHub-Arthur-0e8a16?style=for-the-badge&logo=github)](https://github.com/ArthurCRodrigues)
 
 [![Debora](https://img.shields.io/badge/GitHub-Debora-f9a825?style=for-the-badge&logo=github)](https://github.com/DebLuiza)
