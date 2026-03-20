@@ -15,6 +15,11 @@ Expect frequent changes to structure, docs, and experiments.
 - `docs/firecracker-docs/`: documentation about Firecracker and snapshotting internals.
 - `docs/`: project-specific notes and supporting documentation.
 
+## Firecracker helper scripts
+
+- `scripts/setup_firecracker_assets.sh`: builds a reproducible rootfs (via Docker) that embeds the csv benchmark and downloads Firecracker binaries/kernels into `firecracker-assets/`.
+- `scripts/run_firecracker_benchmark.sh`: launches Firecracker with the prepared assets and captures console/log output plus run durations into `firecracker-run/`.
+
 ## Quick start
 
 Clone Firecracker into the project root:
