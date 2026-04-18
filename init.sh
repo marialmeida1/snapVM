@@ -1,15 +1,19 @@
 #!/bin/bash
-# Mount essential filesystems
 mount -t proc proc /proc
 mount -t sysfs sys /sys
 mount -t devtmpfs dev /dev
 
-# Start PostgreSQL background daemon
-su - postgres -c "/usr/lib/postgresql/15/bin/pg_ctl start -D /etc/postgresql/15/main -l /var/log/postgresql/postgres.log"
+# Configure guest network interface
+ip addr add 172.16.0.2/24 dev eth0
+ip link set dev eth0 up
+ip route add default via 172.16.0.1
 
-# Start the Node.js application
+# Start PostgreSQL
+su - postgres -c "/usr/lib/postgresql/15/bin/pg_ctl start -D /etc/postgresql/15/main -l /var/log/postgresql/postgres.log -w"
+
+# Start Node.js app
 cd /opt/app
 node server.js &
 
-# Provide a shell for debugging (or wait indefinitely)
+# Keep the VM alive
 exec /bin/bash
