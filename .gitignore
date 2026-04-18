@@ -1,0 +1,8 @@
+bin/
+images/
+guest_rootfs/
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log

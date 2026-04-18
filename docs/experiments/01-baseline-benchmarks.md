@@ -1,28 +1,31 @@
-# Experiment 1: Benchmarking Rollback Mechanisms in Stateful Workflows
+# Experiment 1: Benchmarking Rollback Mechanisms in Stateful Workflows (V1 Mock)
+
+**IMPORTANT NOTE FOR V1:** *This initial experiment is designed to establish our core infrastructure metrics without the unpredictable noise of live LLMs. In this phase (V1), there is **no actual LLM integration**. The orchestrator will use a deterministic State Machine to precisely mock an agent's actions, failures, and recovery penalties. Once the infrastructure baselines are proven, V2 will integrate live LLMs.*
 
 ## Goal
-Quantitatively measure the viability of full-state hardware isolation (Firecracker snapshots) against filesystem tracking (Git) during a complex, stateful AI agentic failure.
+Quantitatively measure the viability of full-state hardware isolation (Firecracker snapshots) against filesystem tracking (Git) during a complex, stateful failure. 
 
 To prevent cross-contamination of metrics, the orchestration control plane executes the entire experimental scenario in completely independent, isolated trials for each baseline.
 
-## 1. The Core Execution Scenario
+## 1. The Core Execution Scenario (Deterministic Mock)
 
-We utilize a deterministic workflow involving a backend refactoring task backed by an active **PostgreSQL** database. This ensures standard Git rollbacks natively fail to preserve execution state (such as TCP connection pools and database schemas).
+We utilize a deterministic workflow involving a backend refactoring task backed by an active **PostgreSQL** database.
 
-*   **Milestone Initialization:** The AI agent boots a sandbox environment containing an active Node.js web server and a populated PostgreSQL database. The agent successfully writes a new API route. The orchestrator registers this success and triggers the state capture for the specific baseline being tested.
-*   **Controlled Failure Injection:** Relying on an agent to fail organically is insufficient for rigorous benchmarking. We implement a systematic failure injection methodology where the agent is deliberately prompted to execute a hallucinated SQL migration command. This injected failure drops a critical user table (`DROP TABLE users;`) and causes a fatal crash in the active web server.
+*   **Milestone Initialization:** The orchestrator boots the sandbox environment. Instead of prompting an agent, a Python script directly connects to the DB and runs `CREATE TABLE users (id serial PRIMARY KEY);` to simulate successful agent work. The orchestrator registers this success and triggers the state capture (Git commit or Firecracker Snapshot).
+*   **Controlled Failure Injection:** The orchestrator systematically injects a simulated agent hallucination. It drops the critical user table (`DROP TABLE users;`) and causes a fatal crash in the active web server.
 
 ## 2. Isolated Baseline Trials & Rollback Execution
 
 Upon detecting the injected failure, the system triggers a rollback based on the active baseline:
 
-*   **Baseline A (Git):** The orchestrator runs `git reset --hard` to revert the code modifications back to the milestone commit. The system measures how long it takes for the agent to realize the PostgreSQL database and background server are still corrupted, and how many tokens it consumes trying to manually fix the running state.
-*   **Baseline B (Firecracker):** At the milestone, the orchestrator calls the Firecracker API to generate the `vmstate`, `memory.gz`, and `disk.delta.gz` files. When the injected failure crashes the server, the microVM is destroyed. The orchestrator then restores a fresh microVM using `MAP_PRIVATE` Copy-on-Write memory mapping to instantly resume the exact execution state, including the active Node.js memory and PostgreSQL daemon state.
+*   **Baseline A (Git):** The orchestrator runs `git reset --hard` to revert the filesystem back to the milestone commit. 
+*   **Baseline B (Firecracker):** The orchestrator destroys the corrupted microVM and restores a fresh microVM from the `memory.gz` and `disk.delta.gz` snapshots using `MAP_PRIVATE` Copy-on-Write memory mapping.
 
-## 3. The Rollback and Replan Strategy
+## 3. Verification & The Agent Penalty Simulation
 
-To prevent a "semantic rollback attack"—where the restored agent blindly repeats the flawed execution—the orchestrator implements a strict replanning phase post-rollback:
+Because V1 uses no LLMs, we calculate token waste deterministically using a **Penalty Routine**.
 
-1.  **Truncate Context:** Rewind the agent's conversational memory (the LLM prompt history array) back to the exact moment the snapshot/commit was taken.
-2.  **Inject Failure Context:** Inject a system message detailing the failure that would have happened (e.g., *"Attempting the previous SQL migration caused the server to crash. Formulate an alternative approach."*).
-3.  **Verify via State-Diff Contract:** The orchestrator runs an external, deterministic Python script over the TAP network interface. It checks the physical reality of the environment (e.g., executing SQL queries via HTTP to confirm the table exists and pinging the network port) rather than relying on the LLM to self-report recovery.
+1.  **State-Diff Contract Execution:** The orchestrator runs an external Python script over the TAP network interface, attempting a `SELECT` query on the `users` table. 
+2.  **Evaluate Baseline B (Firecracker):** The snapshot restoration will instantly pass the State-Diff contract because the DB daemon memory is restored. Time is recorded.
+3.  **Evaluate Baseline A (Git):** `git reset` will fail the State-Diff contract (the DB is still broken). 
+4.  **The Penalty Routine (Git only):** To mock the LLM trying to debug the Git failure, the orchestrator triggers a simulated "manual fix" script that repairs the DB. We record the wall-clock time required for this penalty routine to pass the contract. In V2, this penalty time is replaced by measuring actual LLM token consumption.
