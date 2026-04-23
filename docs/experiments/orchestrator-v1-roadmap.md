@@ -118,8 +118,28 @@ python -m src.orchestrator.main run --baseline all
 python -m src.orchestrator.main clean
 ```
 
-## Next Steps (V2)
-*   Integrate live LLM agent (replace deterministic mock actions).
-*   Measure actual token consumption and context window pollution.
-*   Add multi-iteration statistical runs.
-*   Implement disk delta snapshots for incremental captures.
+| Phase 5: Live LLM Agent (V2) | ✅ Complete |
+| Phase 6: Incremental Optimization (V3) | 🛠️ Planned |
+| Phase 7: Agent Autonomy (V4) | 🛠️ Planned |
+
+---
+
+## Phase 6: Incremental State Optimization (V3) 🛠️
+**Objective:** Reduce the storage and I/O overhead of snapshots using Firecracker's block-device deltas and dirty-page tracking.
+
+*   **Task 6.1: Diff Snapshot Implementation**
+    *   Update `snapshot.py` to support `enable_diff_snapshots=True`.
+    *   Compare storage footprint (Full 268MB vs. Incremental ~5-10MB).
+*   **Task 6.2: Capture Latency Benchmarking**
+    *   Measure the speed increase of capturing only modified memory pages.
+
+## Phase 7: Agentic Autonomy (V4) 🛠️
+**Objective:** Shift control of the state lifecycle from the Orchestrator to the Agent.
+
+*   **Task 7.1: Snapshot Tooling**
+    *   Expose `capture_snapshot` and `restore_snapshot` as tools in the `AgentLoop`.
+*   **Task 7.2: Automatic Health Injection (The "Perception Hook")**
+    *   Modify the Orchestrator to automatically prepend the latest `/health` contract result to every message sent to the agent.
+    *   Goal: Eliminate the need for the agent to explicitly "ask" if the system is healthy.
+*   **Task 7.3: Complex Milestone Navigation**
+    *   Test the agent's ability to create "save points" before risky operations and independently decide to rollback when the injected health status turns negative.

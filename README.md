@@ -30,6 +30,8 @@ Detailed documentation regarding the project's methodologies, experiments, and e
 - [**Experiments**](./docs/experiments/): Definitions of our deterministic workflows and baseline comparisons.
   - [Experiment 1: Rollback Mechanisms (Mock)](./docs/experiments/01-baseline-benchmarks.md)
   - [Experiment 2: LLM Agent Recovery & Token Efficiency (Live)](./docs/experiments/02-llm-agent-recovery.md)
+  - [Experiment 3: Incremental State Optimization (V3)](./docs/experiments/01-baseline-benchmarks.md) — *Planned*
+  - [Experiment 4: Agent Autonomy & State Control (V4)](./docs/experiments/01-baseline-benchmarks.md) — *Planned*
 - [**Methodology**](./docs/methodology/): How we measure success, failure, and efficiency.
   - [Evaluation Metrics](./docs/methodology/evaluation-metrics.md)
 - [**Environment Setup**](./docs/environment/): Instructions for provisioning the host and guest systems.
