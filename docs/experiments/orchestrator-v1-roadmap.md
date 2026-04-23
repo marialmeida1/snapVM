@@ -55,7 +55,7 @@ The primary goal of V1 is to prove the physical infrastructure mechanics (Firecr
 **Objective:** Enable the Python host to communicate with the PostgreSQL daemon running inside the guest microVM to verify state.
 
 *   **Task 2.1: TAP Interface Provisioning (`network.py`)** ✅
-    *   `setup_tap()`: creates vmtap0, assigns 172.16.0.1/24, brings up, enables IP forwarding.
+    *   `setup_tap()`: recreates `vmtap0`, assigns 172.16.0.1/24, and brings the interface up.
     *   `teardown_tap()`: deletes vmtap0, ignores errors if absent.
 *   **Task 2.2: MicroVM Network Attachment** ✅
     *   `set_network()` in `FirecrackerClient` binds guest eth0 to host vmtap0.

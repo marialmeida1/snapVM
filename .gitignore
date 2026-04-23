@@ -9,3 +9,4 @@ venv/
 workdir/
 results/
 node_modules/
+.env

@@ -13,12 +13,10 @@ def _run(cmd):
 
 def setup_tap(tap_name=TAP_NAME, host_ip=HOST_IP):
     """Create and configure a TAP interface."""
+    teardown_tap(tap_name=tap_name)
     _run(["sudo", "ip", "tuntap", "add", "dev", tap_name, "mode", "tap"])
     _run(["sudo", "ip", "addr", "add", host_ip, "dev", tap_name])
     _run(["sudo", "ip", "link", "set", "dev", tap_name, "up"])
-    # Enable IP forwarding and masquerade so guest can reach outside if needed
-    _run(["sudo", "sysctl", "-w", "net.ipv4.ip_forward=1"])
-    _run(["sudo", "iptables", "-t", "nat", "-A", "POSTROUTING", "-o", tap_name, "-j", "MASQUERADE"])
 
 
 def teardown_tap(tap_name=TAP_NAME):

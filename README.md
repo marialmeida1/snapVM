@@ -28,15 +28,45 @@ The project is built on a bare-metal Linux host with hardware virtualization (KV
 Detailed documentation regarding the project's methodologies, experiments, and environment setup can be found in the `docs/` directory:
 
 - [**Experiments**](./docs/experiments/): Definitions of our deterministic workflows and baseline comparisons.
-  - [Experiment 1: Rollback Mechanisms in Stateful Workflows](./docs/experiments/01-baseline-benchmarks.md)
+  - [Experiment 1: Rollback Mechanisms (Mock)](./docs/experiments/01-baseline-benchmarks.md)
+  - [Experiment 2: LLM Agent Recovery & Token Efficiency (Live)](./docs/experiments/02-llm-agent-recovery.md)
 - [**Methodology**](./docs/methodology/): How we measure success, failure, and efficiency.
   - [Evaluation Metrics](./docs/methodology/evaluation-metrics.md)
 - [**Environment Setup**](./docs/environment/): Instructions for provisioning the host and guest systems.
   - [Bare-Metal Architecture & Setup Guide](./docs/environment/setup-guide.md)
 
-## Next Steps
+## Implementation Status
 
-Our immediate focus is developing the Minimum Viable Prototype (MVP):
-1. Acquiring/compiling the `vmlinux` kernel.
-2. Constructing the `rootfs.ext4` containing Node.js and PostgreSQL.
-3. Writing the Python orchestrator to manage the Firecracker API and TAP network interfaces.
+| Phase | Status |
+|-------|--------|
+| Phase 1: Firecracker Client | ✅ Complete |
+| Phase 2: Networking & Contract | ✅ Complete |
+| Phase 3: Snapshot Engine | ✅ Complete |
+| Phase 4: CLI & Baselines (V1 Mock) | ✅ Complete |
+| Phase 5: Live LLM Agent (V2) | ✅ Complete |
+
+### V2 Features
+*   **Live LLM Integration:** Uses OpenAI SDK with custom ReAct loop.
+*   **AI-Specific Metrics:** Tracks Token Consumption and Context Window Pollution.
+*   **Infrastructure Optimization:** Firecracker Native Diffs (block device deltas).
+*   **Statistical Runs:** Support for `--iterations N`.
+
+## Usage
+
+```bash
+# 1. Build the guest rootfs
+./setup.sh
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Provision host networking (requires sudo)
+python -m src.orchestrator.main setup
+
+# 4. Run the experiment (Mock Mode)
+python -m src.orchestrator.main run --baseline all --mode mock
+
+# 5. Run the experiment (Live LLM Mode)
+export OPENAI_API_KEY="your-key-here"
+python -m src.orchestrator.main run --baseline all --mode live --iterations 3
+```

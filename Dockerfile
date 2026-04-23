@@ -2,6 +2,8 @@ FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
     postgresql postgresql-contrib \
+    iproute2 \
+    haveged \
     curl \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
@@ -15,6 +17,7 @@ RUN /etc/init.d/postgresql start && \
     /etc/init.d/postgresql stop
 RUN echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/15/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/15/main/postgresql.conf
+RUN echo "ssl=off" >> /etc/postgresql/15/main/postgresql.conf
 USER root
 
 WORKDIR /opt/app
