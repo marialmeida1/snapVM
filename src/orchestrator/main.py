@@ -1,4 +1,4 @@
-"""Orchestrator V1 CLI — deterministic mock baselines for Firecracker vs Git."""
+"""Orchestrator V2 CLI — Firecracker vs Git baselines with Incremental Snapshot support."""
 
 import argparse
 import json
@@ -74,8 +74,6 @@ def simulate_agent_success():
 
 def simulate_agent_failure():
     _db_exec("DROP TABLE IF EXISTS users;")
-    # Kill the Node.js server inside the guest (simulates process crash)
-    # We can't SSH in, but dropping the table is enough — /health will 500.
 
 
 # ── git baseline helpers ─────────────────────────────────────────────────
@@ -122,9 +120,9 @@ def _penalty_routine():
 
 # ── VM boot helper ───────────────────────────────────────────────────────
 
-def _boot_vm(client):
+def _boot_vm(client, track_dirty_pages=False):
     client.spawn()
-    client.set_machine_config(vcpu_count=1, mem_size_mib=256)
+    client.set_machine_config(vcpu_count=1, mem_size_mib=256, track_dirty_pages=track_dirty_pages)
     client.set_boot_source(KERNEL)
     client.set_rootfs(ROOTFS)
     client.set_network()
@@ -212,7 +210,7 @@ def run_firecracker_baseline(client, agent=None, use_diff=False):
 
     try:
         # Boot VM and wait for guest
-        _boot_vm(client)
+        _boot_vm(client, track_dirty_pages=use_diff)
 
         # Milestone: agent creates table + snapshot
         if agent:
@@ -238,7 +236,6 @@ def run_firecracker_baseline(client, agent=None, use_diff=False):
 
         # Snapshot restore
         restore_start = time.perf_counter()
-        # V2: load with enable_diff=True if requested
         snapshot.restore(client, enable_diff=use_diff)
 
         # Wait for restored VM to be reachable
@@ -258,6 +255,54 @@ def run_firecracker_baseline(client, agent=None, use_diff=False):
 
         print(f"  Post-restore contract: {passed} — {detail}")
         return report
+    finally:
+        client.kill()
+
+
+def run_diff_test():
+    """Experiment 3: Compare Full vs Diff snapshot performance."""
+    print("\n=== Experiment 3: Full vs Diff Snapshots ===")
+    client = FirecrackerClient()
+    results = []
+
+    try:
+        # 1. Boot and Full Snapshot (Base)
+        _boot_vm(client, track_dirty_pages=True)
+        
+        # Ensure table exists before snapshotting base
+        _db_exec("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY);")
+        
+        print("  Capturing BASE Full Snapshot...")
+        cap_lat_full, size_full = snapshot.capture(client, snapshot_type="Full", suffix="base")
+        print(f"    Full: {cap_lat_full:.4f}s, {size_full} bytes")
+        
+        # 2. Perform some work (Simulate state change)
+        print("  Simulating work (creating 10,000 users)...")
+        for i in range(100): # Batched for speed
+            users = ", ".join(["(nextval('users_id_seq'))" for _ in range(100)])
+            _db_exec(f"INSERT INTO users (id) VALUES {users};")
+        
+        # 3. Capture Diff Snapshot
+        print("  Capturing DIFF Snapshot...")
+        cap_lat_diff, size_diff = snapshot.capture(client, snapshot_type="Diff", suffix="diff")
+        print(f"    Diff: {cap_lat_diff:.4f}s, {size_diff} bytes")
+        
+        results = [
+            {"type": "Full (Base)", "latency": cap_lat_full, "size": size_full},
+            {"type": "Diff (Incremental)", "latency": cap_lat_diff, "size": size_diff}
+        ]
+        
+        # 4. Verification: Restore from Diff
+        print("  Verifying Restoration from Diff...")
+        res_lat = snapshot.restore(client, suffix="diff")
+        _wait_for_guest()
+        passed, detail = contract.verify_state()
+        print(f"    Restore Result: {passed} — {detail}")
+        
+        return results
+    except Exception as e:
+        print(f"  Error in diff-test: {e}")
+        return []
     finally:
         client.kill()
 
@@ -307,7 +352,6 @@ def cmd_run(baseline, mode, iterations):
         
         if baseline in ("firecracker", "all"):
             agent = AgentLoop() if mode == "live" else None
-            # Enable diff snapshots if in live mode
             results.append(run_firecracker_baseline(client, agent, use_diff=(mode == "live")))
         
         all_results.extend(results)
@@ -326,6 +370,22 @@ def cmd_run(baseline, mode, iterations):
               f"{r['token_consumption']:>8} "
               f"{r['context_pollution']:>10} "
               f"{'PASS' if r['contract_passed'] else 'FAIL':<8}")
+
+
+def cmd_diff_test():
+    """Execute Experiment 3 and print results."""
+    results = run_diff_test()
+    if not results:
+        return
+
+    print("\n── Experiment 3 Results ──")
+    print(f"{'Type':<20} {'Latency':<12} {'Storage':<15}")
+    print("-" * 50)
+    for r in results:
+        print(f"{r['type']:<20} {r['latency']:>10.4f}s {r['size']:>13}B")
+    
+    improvement_size = (1 - results[1]['size'] / results[0]['size']) * 100
+    print(f"\nStorage Improvement: {improvement_size:.1f}%")
 
 
 def cmd_clean():
@@ -351,6 +411,8 @@ def main():
     run_p.add_argument("--mode", choices=["mock", "live"], default="mock", help="Use deterministic mock or live LLM agent")
     run_p.add_argument("--iterations", type=int, default=1, help="Number of experimental iterations")
 
+    sub.add_parser("diff-test", help="Execute Experiment 3 (Full vs Diff Optimization)")
+
     sub.add_parser("clean", help="Tear down network, kill VMs, remove workdir")
 
     args = parser.parse_args()
@@ -359,12 +421,10 @@ def main():
         cmd_setup()
     elif args.command == "run":
         cmd_run(args.baseline, args.mode, args.iterations)
+    elif args.command == "diff-test":
+        cmd_diff_test()
     elif args.command == "clean":
         cmd_clean()
-
-
-if __name__ == "__main__":
-    main()
 
 
 if __name__ == "__main__":

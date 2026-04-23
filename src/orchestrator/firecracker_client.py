@@ -135,10 +135,11 @@ class FirecrackerClient:
 
     # -- VM configuration --
 
-    def set_machine_config(self, vcpu_count=1, mem_size_mib=256):
+    def set_machine_config(self, vcpu_count=1, mem_size_mib=256, track_dirty_pages=False):
         return self._put("/machine-config", {
             "vcpu_count": vcpu_count,
             "mem_size_mib": mem_size_mib,
+            "track_dirty_pages": track_dirty_pages,
         })
 
     def set_boot_source(
