@@ -2,12 +2,11 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CODIGO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-REPO_ROOT="$(cd "${CODIGO_DIR}/.." && pwd)"
+EXPERIMENT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-BIN_DIR="${CODIGO_DIR}/firecracker-bin"
-ASSETS_DIR="${CODIGO_DIR}/firecracker-assets"
-BUILD_DIR="${CODIGO_DIR}/.firecracker-build"
+BIN_DIR="${EXPERIMENT_DIR}/firecracker-bin"
+ASSETS_DIR="${EXPERIMENT_DIR}/firecracker-assets"
+BUILD_DIR="${EXPERIMENT_DIR}/.firecracker-build"
 
 FC_VERSION="${FC_VERSION:-v1.7.0}"
 FC_ARCH="${FC_ARCH:-x86_64}"
@@ -16,8 +15,8 @@ IMAGE_TAG="snapvm-firecracker-rootfs:${FC_VERSION}"
 KERNEL_URL="${KERNEL_URL:-https://s3.amazonaws.com/spec.ccfc.min/firecracker-ci/20260304-1e1378a65f61-0/x86_64/vmlinux-5.10.245}"
 KERNEL_BASENAME="${KERNEL_BASENAME:-vmlinux-5.10.245}"
 
-BENCHMARK_JAR="${CODIGO_DIR}/benchmark/target/csv-analytics-benchmark.jar"
-DATASET_FILE="${CODIGO_DIR}/benchmark/input/sales.csv"
+BENCHMARK_JAR="${EXPERIMENT_DIR}/benchmark/target/csv-analytics-benchmark.jar"
+DATASET_FILE="${EXPERIMENT_DIR}/benchmark/input/sales.csv"
 
 command -v curl >/dev/null 2>&1 || { echo "curl is required"; exit 1; }
 command -v docker >/dev/null 2>&1 || { echo "docker is required"; exit 1; }
@@ -40,7 +39,7 @@ ensure_benchmark_jar() {
     exit 1
   fi
 
-  (cd "${CODIGO_DIR}/benchmark" && "${MVN_BIN}" -q clean package)
+  (cd "${EXPERIMENT_DIR}/benchmark" && "${MVN_BIN}" -q clean package)
 }
 
 prepare_build_context() {

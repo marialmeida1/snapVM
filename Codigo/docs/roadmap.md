@@ -36,9 +36,8 @@ Documentation:
 
 Experiments:
 
-- `docs/experiments/first-snapshot.md`
-- `docs/experiments/environment-rollback.md`
-- `docs/experiments/parallel-vm.md`
+- `experiments/1_benchmark/docs/1.firecracker-benchmark.md`
+- future experiment reports under `experiments/*/docs/`
 
 ## Expected Outcome
 

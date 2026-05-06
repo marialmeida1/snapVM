@@ -46,7 +46,7 @@ The current implementation focuses on building a minimal system capable of manag
 
 # Repository Organization
 
-- **Codigo/**: main implementation, benchmarks, scripts, and technical docs.
+- **Codigo/**: source workspace for the SnapVM project, split between the future `snapvm` module, general documentation, and isolated experiments.
 - **Artefatos/**: project artifacts and deliverables.
 - **Documentacao/**: complementary project documentation.
 - **Divulgacao/**: presentation and communication materials.

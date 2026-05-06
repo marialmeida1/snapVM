@@ -1,4 +1,4 @@
-Codigo/.firecracker-build/
-Codigo/firecracker-assets/
-Codigo/firecracker-bin/
-Codigo/firecracker-run/
+Codigo/experiments/1_benchmark/.firecracker-build/
+Codigo/experiments/1_benchmark/firecracker-assets/
+Codigo/experiments/1_benchmark/firecracker-bin/
+Codigo/experiments/1_benchmark/firecracker-run/

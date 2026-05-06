@@ -2,11 +2,11 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CODIGO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+EXPERIMENT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-BIN_DIR="${CODIGO_DIR}/firecracker-bin"
-ASSETS_DIR="${CODIGO_DIR}/firecracker-assets"
-ARTIFACT_DIR="${CODIGO_DIR}/firecracker-run"
+BIN_DIR="${EXPERIMENT_DIR}/firecracker-bin"
+ASSETS_DIR="${EXPERIMENT_DIR}/firecracker-assets"
+ARTIFACT_DIR="${EXPERIMENT_DIR}/firecracker-run"
 RUN_DIR="${RUN_TMP_DIR:-/tmp/snapvm-firecracker-run}"
 SOCK_PATH="${RUN_DIR}/firecracker.sock"
 LOG_PATH="${RUN_DIR}/firecracker.log"

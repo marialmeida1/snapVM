@@ -71,7 +71,7 @@ APP_TIME_MS=...
 
 ## What the timing values mean
 
-See [EXPLICATION-VALUES-BENCHMARK.md](/Users/mariana/Documents/graduation/snapVM/benchmark/EXPLICATION-VALUES-BENCHMARK.md).
+See `EXPLICATION-VALUES-BENCHMARK.md`.
 
 ## 4. Generate a larger dataset for real benchmarking
 

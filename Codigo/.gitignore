@@ -15,11 +15,11 @@
 
 # Maven local caches
 .m2/
-benchmark/.m2/
+experiments/1_benchmark/benchmark/.m2/
 
 # Maven / Java build output
 target/
-benchmark/target/
+experiments/1_benchmark/benchmark/target/
 
 # Temporary files
 tmp/

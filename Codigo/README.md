@@ -12,19 +12,23 @@ Expect frequent changes to structure, docs, and experiments.
 
 ## What this repository contains
 
-- `docs/firecracker-docs/`: documentation about Firecracker and snapshotting internals.
-- `docs/`: project-specific notes and supporting documentation.
+- `snapvm/`: reserved module for the future main SnapVM implementation.
+- `docs/`: general project documentation shared across the repository.
+- `experiments/`: isolated experiments, each with its own docs, scripts, and support files.
 
-## Firecracker helper scripts
+## Current experiment layout
 
-- `scripts/setup_firecracker_assets.sh`: builds a reproducible rootfs (via Docker) that embeds the csv benchmark and downloads Firecracker binaries/kernels into `firecracker-assets/`.
-- `scripts/run_firecracker_benchmark.sh`: launches Firecracker with the prepared assets and captures console/log output plus run durations into `firecracker-run/`.
+- `experiments/1_benchmark/`: Firecracker benchmark experiment.
+- `experiments/1_benchmark/benchmark/`: Java benchmark project used in the experiment.
+- `experiments/1_benchmark/docs/`: experiment report and Firecracker-specific notes.
+- `experiments/1_benchmark/scripts/`: experiment automation scripts.
 
 ## Quick start
 
-Clone Firecracker into the project root:
+Move into the benchmark experiment directory:
 
 ```bash
+cd Codigo/experiments/1_benchmark
 make clone-firecracker
 ```
 
