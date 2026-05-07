@@ -236,7 +236,7 @@ def run_firecracker_baseline(client, agent=None, use_diff=False):
 
         # Snapshot restore
         restore_start = time.perf_counter()
-        snapshot.restore(client, enable_diff=use_diff)
+        snapshot.restore(client)
 
         # Wait for restored VM to be reachable
         if not _wait_for_guest():
@@ -418,8 +418,11 @@ def main():
     run_v4_p = sub.add_parser("run-v4", help="Execute Experiment 4 (Fair Autonomous Recovery)")
     run_v4_p.add_argument("--iterations", type=int, default=20, help="Iterations per baseline")
 
-    run_v41_p = sub.add_parser("run-v4.1", help="Execute Experiment 4.1 (Complex Stateful Failures)")
-    run_v41_p.add_argument("--iterations", type=int, default=4, help="Iterations per scenario per baseline")
+    run_v4_1_p = sub.add_parser("run-v4.1", help="Execute Experiment 4.1 (Complex Failures)")
+    run_v4_1_p.add_argument("--iterations", type=int, default=4, help="Iterations per scenario")
+
+    run_v4_2_p = sub.add_parser("run-v4.2", help="Execute Experiment 4.2 (Forced Snapshot Recovery)")
+    run_v4_2_p.add_argument("--iterations", type=int, default=4, help="Iterations per scenario")
 
     args = parser.parse_args()
 
@@ -434,6 +437,9 @@ def main():
         run_experiment(iterations=args.iterations)
     elif args.command == "run-v4.1":
         from .experiment_v4_1 import run_experiment
+        run_experiment(iterations=args.iterations)
+    elif args.command == "run-v4.2":
+        from .experiment_v4_2 import run_experiment
         run_experiment(iterations=args.iterations)
     elif args.command == "clean":
         cmd_clean()

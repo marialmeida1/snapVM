@@ -152,11 +152,11 @@ class FirecrackerClient:
             "boot_args": boot_args,
         })
 
-    def set_rootfs(self, drive_path, drive_id="rootfs", read_only=False):
+    def set_rootfs(self, drive_path, drive_id="rootfs", read_only=False, is_root_device=True):
         return self._put(f"/drives/{drive_id}", {
             "drive_id": drive_id,
             "path_on_host": drive_path,
-            "is_root_device": True,
+            "is_root_device": is_root_device,
             "is_read_only": read_only,
         })
 

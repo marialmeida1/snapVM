@@ -263,11 +263,17 @@ def _wait_for_guest(retries=30, delay=2):
     return False
 
 
+RUN_ROOTFS = "images/rootfs_run.ext4"
+
 def _boot_vm(client, track_dirty_pages=False):
+    # Copy fresh rootfs for this trial to ensure isolation
+    import shutil
+    shutil.copy2(ROOTFS, RUN_ROOTFS)
+    
     client.spawn()
     client.set_machine_config(vcpu_count=1, mem_size_mib=256, track_dirty_pages=track_dirty_pages)
     client.set_boot_source(KERNEL)
-    client.set_rootfs(ROOTFS)
+    client.set_rootfs(RUN_ROOTFS)
     client.set_network()
     client.start()
     if not _wait_for_guest():
