@@ -424,6 +424,9 @@ def main():
     run_v4_2_p = sub.add_parser("run-v4.2", help="Execute Experiment 4.2 (Forced Snapshot Recovery)")
     run_v4_2_p.add_argument("--iterations", type=int, default=4, help="Iterations per scenario")
 
+    run_v5_p = sub.add_parser("run-v5", help="Execute Experiment 5 (Agent-Driven Checkpoints)")
+    run_v5_p.add_argument("--iterations", type=int, default=10, help="Iterations per baseline")
+
     args = parser.parse_args()
 
     if args.command == "setup":
@@ -440,6 +443,9 @@ def main():
         run_experiment(iterations=args.iterations)
     elif args.command == "run-v4.2":
         from .experiment_v4_2 import run_experiment
+        run_experiment(iterations=args.iterations)
+    elif args.command == "run-v5":
+        from .experiment_v5 import run_experiment
         run_experiment(iterations=args.iterations)
     elif args.command == "clean":
         cmd_clean()
