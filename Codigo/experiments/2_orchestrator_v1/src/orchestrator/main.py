@@ -427,6 +427,9 @@ def main():
     run_v5_p = sub.add_parser("run-v5", help="Execute Experiment 5 (Agent-Driven Checkpoints)")
     run_v5_p.add_argument("--iterations", type=int, default=10, help="Iterations per baseline")
 
+    run_v6_p = sub.add_parser("run-v6", help="Execute Experiment 6 (Exploration Branching)")
+    run_v6_p.add_argument("--iterations", type=int, default=15, help="Iterations per baseline")
+
     args = parser.parse_args()
 
     if args.command == "setup":
@@ -446,6 +449,9 @@ def main():
         run_experiment(iterations=args.iterations)
     elif args.command == "run-v5":
         from .experiment_v5 import run_experiment
+        run_experiment(iterations=args.iterations)
+    elif args.command == "run-v6":
+        from .experiment_v6 import run_experiment
         run_experiment(iterations=args.iterations)
     elif args.command == "clean":
         cmd_clean()
