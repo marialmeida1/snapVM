@@ -1,4 +1,3 @@
-
 ![SnapVM screenshot](Divulgacao/Apresentacao/img/snapvm-logo.png)
 
 # SnapVM
@@ -7,7 +6,9 @@ SnapVM is an experimental project that explores the use of **Firecracker microVM
 
 The project investigates how snapshot-based virtual machines can be used to create environments that can be saved, restored, and cloned quickly, enabling safer experimentation and faster recovery from failures.
 
-SnapVM is being developed as a **command-line tool (CLI)** that orchestrates Firecracker microVMs and manages their execution state through snapshots.
+At its core, SnapVM studies **stateful AI agent recovery**: how to restore not only source files, but the full execution state of a system, including memory, background processes, sockets, and database state. This is especially relevant for AI coding agents, automated testing pipelines, and other long-running agentic workflows where traditional file-only rollback mechanisms are insufficient.
+
+SnapVM is being developed as a **command-line tool (CLI)** and research platform for orchestrating Firecracker microVMs, validating rollback strategies, and comparing infrastructure-level recovery against conventional Git-based baselines.
 
 ---
 
@@ -15,7 +16,7 @@ SnapVM is being developed as a **command-line tool (CLI)** that orchestrates Fir
 
 Modern systems that execute code automatically, such as AI coding agents, testing pipelines, or experimental runtime environments, require isolated environments where code can run safely.
 
-Current approaches often rely on container-based environments. While effective, these environments typically require rebuilding or reconfiguring the system when failures occur.
+Current approaches often rely on container-based environments or stateless version control. While effective in many situations, these approaches typically require rebuilding or reconfiguring the system when failures occur, and they do not fully restore corrupted execution state.
 
 SnapVM explores a different approach by using **virtual machine snapshots as the primary mechanism for environment management**.
 
@@ -25,6 +26,7 @@ With this approach it becomes possible to:
 - recover from failures without rebuilding the system
 - safely experiment with destructive operations
 - clone environments for parallel execution
+- avoid expensive recovery loops caused by partially broken runtime state
 
 ---
 
@@ -40,17 +42,68 @@ The project aims to demonstrate that microVM snapshots can support workflows whe
 - reused
 - recovered quickly after failure
 
-The current implementation focuses on building a minimal system capable of managing these operations.
+The current implementation focuses on building minimal but realistic validations around these operations, including experiments that compare **Git rollback** with **Firecracker snapshot restoration** in stateful environments.
+
+---
+
+# System Architecture
+
+The current research directions include a bare-metal host orchestrating isolated Firecracker guests and validating recovery through reproducible experiments.
+
+1. **Host Orchestration Layer**
+   Manages experiment control flow, recovery strategy selection, contract validation, and experiment telemetry.
+
+2. **Firecracker MicroVM Guest**
+   Runs the isolated workload being evaluated, including stateful services and benchmark applications.
+
+3. **State-Diff Validation Contract**
+   Confirms whether the environment is truly healthy after rollback, not only whether files were reverted.
+
+4. **Experiment-Specific Workloads**
+   Includes both deterministic benchmarks and orchestrated rollback scenarios for stateful services.
 
 ---
 
 # Repository Organization
 
-- **Codigo/**: source workspace for the SnapVM project, split between the future `snapvm` module, general documentation, and isolated experiments.
+- **Codigo/**: source workspace for the SnapVM project, split between the future `snapvm` module, general documentation, and validated experiments.
+- **Codigo/snapvm/**: reserved module for the future main SnapVM implementation.
+- **Codigo/docs/**: general project documentation, concepts, and roadmap.
+- **Codigo/experiments/**: formal experiment implementations and their supporting materials.
 - **Artefatos/**: project artifacts and deliverables.
 - **Documentacao/**: complementary project documentation.
 - **Divulgacao/**: presentation and communication materials.
 - Root files include project metadata such as **README**, **LICENSE**, and **CITATION.cff**.
+
+---
+
+# Experiment Structure
+
+The repository currently separates validations into self-contained experiment directories:
+
+- **`Codigo/experiments/1_benchmark/`**: Firecracker benchmark validation with Java workload, experiment report, scripts, and Firecracker-specific notes.
+- **`Codigo/experiments/2_orchestrator_v1/`**: orchestrator validation comparing Git-based rollback and Firecracker snapshot restoration, including docs, source code, tests, guest image assets, and setup scripts.
+
+This structure keeps experiment-specific assets isolated from the future `snapvm` product module.
+
+---
+
+# Implementation Status
+
+| Phase | Status |
+|-------|--------|
+| Phase 1: Firecracker Client | Complete |
+| Phase 2: Networking & Contract | Complete |
+| Phase 3: Snapshot Engine | Complete |
+| Phase 4: CLI & Baselines (V1 Mock) | Complete |
+| Phase 5: Live LLM Agent (V2) | In research / merge |
+
+Current validated directions include:
+
+- deterministic rollback baselines comparing Git and Firecracker
+- benchmark execution inside Firecracker microVMs
+- stateful recovery validation through contract checks
+- experiment scaffolding for future AI-agent-driven recovery workflows
 
 ---
 
@@ -69,6 +122,14 @@ Develop the first functional version of SnapVM capable of managing microVM envir
 ### Sprint 3 - System Consolidation
 
 Refine the prototype, complete missing functionality, and finalize the project documentation.
+
+---
+
+# Where To Look
+
+- General concepts and roadmap: `Codigo/docs/`
+- Firecracker benchmark validation: `Codigo/experiments/1_benchmark/`
+- Orchestrator rollback validation: `Codigo/experiments/2_orchestrator_v1/`
 
 ---
 
