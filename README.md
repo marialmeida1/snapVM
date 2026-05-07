@@ -1,74 +1,144 @@
-# Stateful AI Agent Recovery Research: Firecracker vs. Git Baselines
+![SnapVM screenshot](Divulgacao/Apresentacao/img/snapvm-logo.png)
 
-## Overview
+# SnapVM
 
-As autonomous artificial intelligence (AI) agents are increasingly deployed in stateful, continuous software engineering workflows, the necessity for robust failure recovery has become a critical bottleneck. Traditional error handling relies on stateless version control (like Git), which can revert code files but fails to repair corrupted background processes, active network sockets, or destroyed database schemas.
+SnapVM is an experimental project that explores the use of **Firecracker microVM snapshots** to build fast, recoverable execution environments.
 
-This project evaluates a paradigm shift in multi-agent orchestration: **infrastructure-level state recovery**. We propose that utilizing Amazon Firecracker's microVM snapshots paired with a state-diff evaluation contract is theoretically superior to standard version control methods. 
+The project investigates how snapshot-based virtual machines can be used to create environments that can be saved, restored, and cloned quickly, enabling safer experimentation and faster recovery from failures.
 
-By capturing the complete execution reality—including active memory, background processes, and database locks—and utilizing Copy-on-Write (CoW) anonymous memory mapping, a Firecracker microVM can be restored to a precise snapshot point in as little as 5 milliseconds. This bypasses OS cold-start latency, prevents LLM context exhaustion, and avoids expensive "hallucinated retry loops."
+At its core, SnapVM studies **stateful AI agent recovery**: how to restore not only source files, but the full execution state of a system, including memory, background processes, sockets, and database state. This is especially relevant for AI coding agents, automated testing pipelines, and other long-running agentic workflows where traditional file-only rollback mechanisms are insufficient.
 
-## System Architecture
+SnapVM is being developed as a **command-line tool (CLI)** and research platform for orchestrating Firecracker microVMs, validating rollback strategies, and comparing infrastructure-level recovery against conventional Git-based baselines.
 
-The project is built on a bare-metal Linux host with hardware virtualization (KVM) enabled. The architecture consists of:
+---
 
-1. **Python Orchestration Control Plane (Host):**
-   - Manages the AI agent's prompt history and LLM interactions.
-   - Triggers Firecracker API calls for snapshotting and restoring microVMs.
-   - Executes deterministic Failure Injection.
-   - Runs State-Diff Contracts (HTTP/Network probes) against the microVM to verify state integrity post-rollback.
+# Motivation
 
-2. **Firecracker MicroVM (Guest Environment):**
-   - **Kernel:** Uncompressed Linux kernel (`vmlinux`) optimized for rapid boot.
-   - **Rootfs:** Minimal `ext4` filesystem.
-   - **Stack:** Node.js API server connected to a persistent **PostgreSQL** database daemon. This guarantees a highly stateful environment (active TCP connection pools, shared memory buffers, background writers) that standard Git rollbacks cannot properly restore.
+Modern systems that execute code automatically, such as AI coding agents, testing pipelines, or experimental runtime environments, require isolated environments where code can run safely.
 
-## Documentation Structure
+Current approaches often rely on container-based environments or stateless version control. While effective in many situations, these approaches typically require rebuilding or reconfiguring the system when failures occur, and they do not fully restore corrupted execution state.
 
-Detailed documentation regarding the project's methodologies, experiments, and environment setup can be found in the `docs/` directory:
+SnapVM explores a different approach by using **virtual machine snapshots as the primary mechanism for environment management**.
 
-- [**Experiments**](./docs/experiments/): Definitions of our deterministic workflows and baseline comparisons.
-  - [Experiment 1: Rollback Mechanisms (Mock)](./docs/experiments/01-baseline-benchmarks.md)
-  - [Experiment 2: LLM Agent Recovery & Token Efficiency (Live)](./docs/experiments/02-llm-agent-recovery.md)
-  - [Experiment 3: Incremental State Optimization (V3)](./docs/experiments/01-baseline-benchmarks.md) — *Planned*
-  - [Experiment 4: Agent Autonomy & State Control (V4)](./docs/experiments/01-baseline-benchmarks.md) — *Planned*
-- [**Methodology**](./docs/methodology/): How we measure success, failure, and efficiency.
-  - [Evaluation Metrics](./docs/methodology/evaluation-metrics.md)
-- [**Environment Setup**](./docs/environment/): Instructions for provisioning the host and guest systems.
-  - [Bare-Metal Architecture & Setup Guide](./docs/environment/setup-guide.md)
+With this approach it becomes possible to:
 
-## Implementation Status
+- restore environments almost instantly
+- recover from failures without rebuilding the system
+- safely experiment with destructive operations
+- clone environments for parallel execution
+- avoid expensive recovery loops caused by partially broken runtime state
+
+---
+
+# Project Goals
+
+The main objective of SnapVM is to validate the feasibility of snapshot-based execution environments.
+
+The project aims to demonstrate that microVM snapshots can support workflows where environments can be:
+
+- created
+- saved
+- restored
+- reused
+- recovered quickly after failure
+
+The current implementation focuses on building minimal but realistic validations around these operations, including experiments that compare **Git rollback** with **Firecracker snapshot restoration** in stateful environments.
+
+---
+
+# System Architecture
+
+The current research directions include a bare-metal host orchestrating isolated Firecracker guests and validating recovery through reproducible experiments.
+
+1. **Host Orchestration Layer**
+   Manages experiment control flow, recovery strategy selection, contract validation, and experiment telemetry.
+
+2. **Firecracker MicroVM Guest**
+   Runs the isolated workload being evaluated, including stateful services and benchmark applications.
+
+3. **State-Diff Validation Contract**
+   Confirms whether the environment is truly healthy after rollback, not only whether files were reverted.
+
+4. **Experiment-Specific Workloads**
+   Includes both deterministic benchmarks and orchestrated rollback scenarios for stateful services.
+
+---
+
+# Repository Organization
+
+- **Codigo/**: source workspace for the SnapVM project, split between the future `snapvm` module, general documentation, and validated experiments.
+- **Codigo/snapvm/**: reserved module for the future main SnapVM implementation.
+- **Codigo/docs/**: general project documentation, concepts, and roadmap.
+- **Codigo/experiments/**: formal experiment implementations and their supporting materials.
+- **Artefatos/**: project artifacts and deliverables.
+- **Documentacao/**: complementary project documentation.
+- **Divulgacao/**: presentation and communication materials.
+- Root files include project metadata such as **README**, **LICENSE**, and **CITATION.cff**.
+
+---
+
+# Experiment Structure
+
+The repository currently separates validations into self-contained experiment directories:
+
+- **`Codigo/experiments/1_benchmark/`**: Firecracker benchmark validation with Java workload, experiment report, scripts, and Firecracker-specific notes.
+- **`Codigo/experiments/2_orchestrator_v1/`**: orchestrator validation comparing Git-based rollback and Firecracker snapshot restoration, including docs, source code, tests, guest image assets, and setup scripts.
+
+This structure keeps experiment-specific assets isolated from the future `snapvm` product module.
+
+---
+
+# Implementation Status
 
 | Phase | Status |
 |-------|--------|
-| Phase 1: Firecracker Client | ✅ Complete |
-| Phase 2: Networking & Contract | ✅ Complete |
-| Phase 3: Snapshot Engine | ✅ Complete |
-| Phase 4: CLI & Baselines (V1 Mock) | ✅ Complete |
-| Phase 5: Live LLM Agent (V2) | ✅ Complete |
+| Phase 1: Firecracker Client | Complete |
+| Phase 2: Networking & Contract | Complete |
+| Phase 3: Snapshot Engine | Complete |
+| Phase 4: CLI & Baselines (V1 Mock) | Complete |
+| Phase 5: Live LLM Agent (V2) | In research / merge |
 
-### V2 Features
-*   **Live LLM Integration:** Uses OpenAI SDK with custom ReAct loop.
-*   **AI-Specific Metrics:** Tracks Token Consumption and Context Window Pollution.
-*   **Infrastructure Optimization:** Firecracker Native Diffs (block device deltas).
-*   **Statistical Runs:** Support for `--iterations N`.
+Current validated directions include:
 
-## Usage
+- deterministic rollback baselines comparing Git and Firecracker
+- benchmark execution inside Firecracker microVMs
+- stateful recovery validation through contract checks
+- experiment scaffolding for future AI-agent-driven recovery workflows
 
-```bash
-# 1. Build the guest rootfs
-./setup.sh
+---
 
-# 2. Install Python dependencies
-pip install -r requirements.txt
+# Project Roadmap
 
-# 3. Provision host networking (requires sudo)
-python -m src.orchestrator.main setup
+The development of SnapVM is organized into three main phases:
 
-# 4. Run the experiment (Mock Mode)
-python -m src.orchestrator.main run --baseline all --mode mock
+### Sprint 1 - Research and Documentation
 
-# 5. Run the experiment (Live LLM Mode)
-export OPENAI_API_KEY="your-key-here"
-python -m src.orchestrator.main run --baseline all --mode live --iterations 3
-```
+Define the conceptual foundation of the project and validate core ideas through small experiments.
+
+### Sprint 2 - SnapVM CLI Implementation
+
+Develop the first functional version of SnapVM capable of managing microVM environments and snapshots.
+
+### Sprint 3 - System Consolidation
+
+Refine the prototype, complete missing functionality, and finalize the project documentation.
+
+---
+
+# Where To Look
+
+- General concepts and roadmap: `Codigo/docs/`
+- Firecracker benchmark validation: `Codigo/experiments/1_benchmark/`
+- Orchestrator rollback validation: `Codigo/experiments/2_orchestrator_v1/`
+
+---
+
+# Contributors
+
+[![Arthur](https://img.shields.io/badge/GitHub-Arthur-0e8a16?style=for-the-badge&logo=github)](https://github.com/ArthurCRodrigues)
+
+[![Debora](https://img.shields.io/badge/GitHub-Debora-f9a825?style=for-the-badge&logo=github)](https://github.com/DebLuiza)
+
+[![Gustavo](https://img.shields.io/badge/GitHub-Gustavo-d73a49?style=for-the-badge&logo=github)](https://github.com/GhrCastro)
+
+[![Mariana](https://img.shields.io/badge/GitHub-Mariana-6f42c1?style=for-the-badge&logo=github)](https://github.com/marialmeida1)
