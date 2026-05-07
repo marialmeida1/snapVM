@@ -41,7 +41,7 @@ SYSTEM_PROMPT = (
     "recover and continue. Your goal is to complete the entire migration successfully."
 )
 
-TASK_PROMPT = """Complete the following database migration steps in order:
+TASK_PROMPT = """Complete the following database migration steps in order. You MUST run a 'check_health' call after completing EACH step to verify success:
 
 1. Create a "products" table (id serial primary key, name text not null, price numeric not null)
 2. Seed 100 rows of sample product data
@@ -50,7 +50,7 @@ TASK_PROMPT = """Complete the following database migration steps in order:
 5. Create an index on products(category_id)
 6. Verify the final state: products table has 100 rows with valid category_id references
 
-Execute each step and verify it works before moving to the next."""
+If health check fails at any point, use your tools to diagnose and recover before proceeding to the next step."""
 
 # ── Checkpoint Tools ─────────────────────────────────────────────────────
 
@@ -91,11 +91,11 @@ TOOL_RESTORE_CHECKPOINT = {
 INJECTION_POINTS = {
     "after_seed": {
         "description": "Corrupt 20% of seeded product data",
-        "trigger_after_tool_calls": 8,  # approximate: after seeding is done
+        "trigger_after_tool_calls": 3,
     },
     "after_categories": {
         "description": "Drop the categories table",
-        "trigger_after_tool_calls": 20,  # approximate: after category assignment
+        "trigger_after_tool_calls": 8,
     },
 }
 
@@ -106,6 +106,10 @@ def _inject_after_seed():
         conn = psycopg2.connect(**DB_CONN)
         conn.autocommit = True
         with conn.cursor() as cur:
+            # Check if products table exists
+            cur.execute("SELECT 1 FROM information_schema.tables WHERE table_name='products';")
+            if not cur.fetchone():
+                return False
             cur.execute("UPDATE products SET price = NULL WHERE id % 5 = 0;")
             cur.execute("UPDATE products SET name = '' WHERE id % 7 = 0;")
         conn.close()
@@ -120,6 +124,10 @@ def _inject_after_categories():
         conn = psycopg2.connect(**DB_CONN)
         conn.autocommit = True
         with conn.cursor() as cur:
+            # Check if categories table exists
+            cur.execute("SELECT 1 FROM information_schema.tables WHERE table_name='categories';")
+            if not cur.fetchone():
+                return False
             cur.execute("ALTER TABLE products DROP CONSTRAINT IF EXISTS products_category_id_fkey;")
             cur.execute("DROP TABLE IF EXISTS categories CASCADE;")
         conn.close()
@@ -205,7 +213,7 @@ class CheckpointAgentLoop(FairAgentLoop):
 
     def _maybe_inject(self):
         """Inject failures at specific points in the agent's work."""
-        if not self._injection_1_done and self.tool_call_count >= 8:
+        if not self._injection_1_done and self.tool_call_count >= 3:
             if _inject_after_seed():
                 self._injection_1_done = True
                 self._injections_applied.append({
@@ -214,7 +222,7 @@ class CheckpointAgentLoop(FairAgentLoop):
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 })
 
-        if not self._injection_2_done and self.tool_call_count >= 20:
+        if not self._injection_2_done and self.tool_call_count >= 8:
             if _inject_after_categories():
                 self._injection_2_done = True
                 self._injections_applied.append({
@@ -263,14 +271,27 @@ class CheckpointAgentLoop(FairAgentLoop):
             return json.dumps({"ok": False, "error": str(e)})
 
     def chat(self, user_input):
-        """Chat with max tool call enforcement."""
+        """Chat with max tool call enforcement and rate limit handling."""
         self.messages.append({"role": "user", "content": user_input})
 
         while True:
-            response = self.client.chat.completions.create(
-                model=self.model, messages=self.messages,
-                tools=self.tools, tool_choice="auto", temperature=0,
-            )
+            # Rate limit handling
+            backoff = 1
+            while True:
+                try:
+                    response = self.client.chat.completions.create(
+                        model=self.model, messages=self.messages,
+                        tools=self.tools, tool_choice="auto", temperature=0,
+                    )
+                    break
+                except Exception as e:
+                    if "rate_limit_exceeded" in str(e).lower() and backoff < 64:
+                        print(f"    [rate-limit] Sleeping {backoff}s...")
+                        time.sleep(backoff)
+                        backoff *= 2
+                    else:
+                        raise e
+
             self._track_usage(response.usage)
             msg = response.choices[0].message
             self.messages.append(msg)
@@ -337,6 +358,12 @@ def run_checkpoint_baseline(client, iteration):
 
 
 def _build_result(agent, iteration, baseline, passed, detail, checks, task_latency):
+    # In V5, tokens are tracked in init_tokens because the phase is 'task'
+    # but FairAgentLoop defaults non-recovery tokens to init_tokens.
+    # We'll sum all tracked buckets to be safe.
+    total_prompt = agent.init_tokens["prompt"] + agent.recovery_tokens["prompt"]
+    total_comp = agent.init_tokens["completion"] + agent.recovery_tokens["completion"]
+    
     return {
         "iteration": iteration,
         "baseline": baseline,
@@ -344,9 +371,9 @@ def _build_result(agent, iteration, baseline, passed, detail, checks, task_laten
         "validation_detail": detail,
         "validation_checks": {k: v for k, v in checks},
         "tool_calls_total": agent.tool_call_count,
-        "token_consumption": agent.recovery_tokens["prompt"] + agent.recovery_tokens["completion"],
-        "prompt_tokens": agent.recovery_tokens["prompt"],
-        "completion_tokens": agent.recovery_tokens["completion"],
+        "token_consumption": total_prompt + total_comp,
+        "prompt_tokens": total_prompt,
+        "completion_tokens": total_comp,
         "task_latency_s": round(task_latency, 3),
         "context_pollution": agent.get_context_pollution(),
         "tool_sequence": agent.tool_sequence,

@@ -1,0 +1,163 @@
+{
+  "experiment": "v5_agent_driven_checkpoints",
+  "timestamp": "2026-05-07T20:22:47.168989+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_baseline": 1,
+  "max_tool_calls": 40,
+  "injection_points": [
+    "after_seed (tool_call ~8)",
+    "after_categories (tool_call ~20)"
+  ],
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 23,
+      "token_consumption": 33166,
+      "prompt_tokens": 31788,
+      "completion_tokens": 1378,
+      "task_latency_s": 28.205,
+      "context_pollution": 1603,
+      "tool_sequence": [
+        "query_db",
+        "check_health",
+        "execute_bash",
+        "execute_bash",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db"
+      ],
+      "checkpoints_created": 0,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:21:38.767484+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 12,
+          "timestamp": "2026-05-07T20:21:48.959536+00:00"
+        }
+      ],
+      "recovery_strategy": "manual_only"
+    },
+    {
+      "iteration": 1,
+      "baseline": "checkpoint",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 21,
+      "token_consumption": 31094,
+      "prompt_tokens": 29941,
+      "completion_tokens": 1153,
+      "task_latency_s": 33.729,
+      "context_pollution": 1476,
+      "tool_sequence": [
+        "save_checkpoint",
+        "query_db",
+        "check_health",
+        "restore_checkpoint",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db"
+      ],
+      "checkpoints_created": 1,
+      "checkpoints_restored": 1,
+      "checkpoint_labels": [
+        "Initial state before migration"
+      ],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:22:16.064038+00:00"
+        },
+        {
+          "type": "after_seed",
+          "at_tool_call": 6,
+          "timestamp": "2026-05-07T20:22:18.449660+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 11,
+          "timestamp": "2026-05-07T20:22:25.111373+00:00"
+        }
+      ],
+      "recovery_strategy": "checkpoint_restore"
+    }
+  ],
+  "summary": {
+    "standard": {
+      "completion_rate": 1.0,
+      "avg_tool_calls": 23.0,
+      "avg_tokens": 33166.0,
+      "avg_latency_s": 28.205,
+      "avg_context_pollution": 1603.0,
+      "avg_checkpoints_created": 0.0,
+      "avg_checkpoints_restored": 0.0,
+      "strategy_distribution": {
+        "manual_only": 1
+      }
+    },
+    "checkpoint": {
+      "completion_rate": 1.0,
+      "avg_tool_calls": 21.0,
+      "avg_tokens": 31094.0,
+      "avg_latency_s": 33.729,
+      "avg_context_pollution": 1476.0,
+      "avg_checkpoints_created": 1.0,
+      "avg_checkpoints_restored": 1.0,
+      "strategy_distribution": {
+        "checkpoint_restore": 1
+      }
+    }
+  }
+}

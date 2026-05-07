@@ -1,0 +1,385 @@
+{
+  "experiment": "v4_1_complex_stateful_failures",
+  "timestamp": "2026-05-07T17:45:14.783658+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_scenario": 1,
+  "max_tool_calls": 25,
+  "scenarios": [
+    {
+      "id": "F1",
+      "name": "multi_table_corruption",
+      "description": "Drop users table + insert corrupt data into a new rogue table",
+      "complexity": 2
+    },
+    {
+      "id": "F2",
+      "name": "process_and_config",
+      "description": "Kill Node.js process + corrupt the server.js file",
+      "complexity": 2
+    },
+    {
+      "id": "F3",
+      "name": "schema_and_data_corruption",
+      "description": "Alter column type + insert invalid data that breaks queries",
+      "complexity": 2
+    },
+    {
+      "id": "F4",
+      "name": "permissions_and_schema",
+      "description": "Drop users table + revoke DB user permissions",
+      "complexity": 2
+    },
+    {
+      "id": "F5",
+      "name": "cascading_service_failure",
+      "description": "Truncate table + kill PostgreSQL + remove PG socket",
+      "complexity": 3
+    }
+  ],
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 4.733,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.863,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.492,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.829,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 738,
+      "prompt_tokens": 689,
+      "completion_tokens": 49,
+      "recovery_latency_s": 1.732,
+      "context_pollution": 250,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 812,
+      "prompt_tokens": 771,
+      "completion_tokens": 41,
+      "recovery_latency_s": 5.685,
+      "context_pollution": 242,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 4.671,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.773,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 743,
+      "prompt_tokens": 689,
+      "completion_tokens": 54,
+      "recovery_latency_s": 1.58,
+      "context_pollution": 255,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 812,
+      "prompt_tokens": 771,
+      "completion_tokens": 41,
+      "recovery_latency_s": 2.017,
+      "context_pollution": 242,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    }
+  ],
+  "summary": {
+    "overall": {
+      "standard": {
+        "success_rate": 1.0,
+        "avg_tool_calls": 2.2,
+        "avg_tokens": 1350.4,
+        "avg_latency_s": 3.242,
+        "avg_context_pollution": 275.6,
+        "strategy_distribution": {
+          "manual_repair": 5
+        }
+      },
+      "snapvm": {
+        "success_rate": 1.0,
+        "avg_tool_calls": 1.0,
+        "avg_tokens": 555.2,
+        "avg_latency_s": 2.033,
+        "avg_context_pollution": 224.0,
+        "strategy_distribution": {
+          "snapshot_restore": 3,
+          "manual_repair": 2
+        }
+      }
+    },
+    "per_scenario": {
+      "F1": {
+        "name": "multi_table_corruption",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1757.0,
+          "avg_latency_s": 4.733,
+          "avg_context_pollution": 291.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 384.0,
+          "avg_latency_s": 0.863,
+          "avg_context_pollution": 212.0,
+          "strategy_distribution": {
+            "snapshot_restore": 1
+          }
+        }
+      },
+      "F2": {
+        "name": "process_and_config",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1757.0,
+          "avg_latency_s": 3.492,
+          "avg_context_pollution": 291.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 384.0,
+          "avg_latency_s": 0.829,
+          "avg_context_pollution": 212.0,
+          "strategy_distribution": {
+            "snapshot_restore": 1
+          }
+        }
+      },
+      "F3": {
+        "name": "schema_and_data_corruption",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 738.0,
+          "avg_latency_s": 1.732,
+          "avg_context_pollution": 250.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 812.0,
+          "avg_latency_s": 5.685,
+          "avg_context_pollution": 242.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        }
+      },
+      "F4": {
+        "name": "permissions_and_schema",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1757.0,
+          "avg_latency_s": 4.671,
+          "avg_context_pollution": 291.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 384.0,
+          "avg_latency_s": 0.773,
+          "avg_context_pollution": 212.0,
+          "strategy_distribution": {
+            "snapshot_restore": 1
+          }
+        }
+      },
+      "F5": {
+        "name": "cascading_service_failure",
+        "complexity": 3,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 743.0,
+          "avg_latency_s": 1.58,
+          "avg_context_pollution": 255.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 812.0,
+          "avg_latency_s": 2.017,
+          "avg_context_pollution": 242.0,
+          "strategy_distribution": {
+            "manual_repair": 1
+          }
+        }
+      }
+    }
+  }
+}

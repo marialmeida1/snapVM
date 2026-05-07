@@ -102,32 +102,24 @@ def _setup_broken_environment():
       2. A suspicious _migrations_log table with recent timestamps
       3. PostgreSQL log warnings about checkpoint segments (unrelated)
     """
-    # Root cause 1: drop index and set aggressive timeout
-    _db_exec("DROP INDEX IF EXISTS users_pkey CASCADE;")
-    # Recreate table without primary key to remove implicit index
-    _db_exec("DROP TABLE IF EXISTS users;")
+    # Root cause 1: drop index (via table recreation)
+    _db_exec("DROP TABLE IF EXISTS users CASCADE;")
     _db_exec("CREATE TABLE users (id integer, name text);")
-    # Root cause 2: flood with rows to make unindexed scan slow
-    _db_exec("INSERT INTO users SELECT g, 'user_' || g FROM generate_series(1, 10000) g;")
-    # Set statement timeout so the health query times out
-    _db_exec("ALTER DATABASE app_db SET statement_timeout = '50ms';")
-
-    # Red herring 1: modify server.js comment via exec endpoint
-    try:
-        requests.post(f"http://{GUEST_IP}:3000/exec", json={
-            "command": "sed -i '1i // Modified: config update 2026-05-07 — pool tuning' /opt/app/server.js"
-        }, timeout=5)
-    except Exception:
-        pass
+    _db_exec("INSERT INTO users SELECT g, 'user_' || g FROM generate_series(1, 1000) g;")
 
     # Red herring 2: suspicious table
     _db_exec("""
         CREATE TABLE IF NOT EXISTS _migrations_log (
             id serial, migration text, applied_at timestamp default now()
         );
-        INSERT INTO _migrations_log (migration) VALUES
+        INSERT INTO _migrations_log (migration) VALUES 
             ('20260507_alter_pool_size'), ('20260507_update_indexes');
     """)
+
+    # Root cause 2: extremely aggressive statement timeout
+    # Moving this to the end so it doesn't break setup.
+    _db_exec("ALTER SYSTEM SET statement_timeout = '10ms';")
+    _db_exec("SELECT pg_reload_conf();")
 
     # Red herring 3: generate PG log noise
     _db_exec("SET log_min_messages = 'warning';")

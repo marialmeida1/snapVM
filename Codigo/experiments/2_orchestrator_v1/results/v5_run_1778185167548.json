@@ -1,0 +1,112 @@
+{
+  "experiment": "v5_agent_driven_checkpoints",
+  "timestamp": "2026-05-07T20:19:27.548323+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_baseline": 1,
+  "max_tool_calls": 40,
+  "injection_points": [
+    "after_seed (tool_call ~8)",
+    "after_categories (tool_call ~20)"
+  ],
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 8,
+      "token_consumption": 4478,
+      "prompt_tokens": 4173,
+      "completion_tokens": 305,
+      "task_latency_s": 6.695,
+      "context_pollution": 328,
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db"
+      ],
+      "checkpoints_created": 0,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [],
+      "injections_applied": [],
+      "recovery_strategy": "manual_only"
+    },
+    {
+      "iteration": 1,
+      "baseline": "checkpoint",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 10,
+      "token_consumption": 8081,
+      "prompt_tokens": 7745,
+      "completion_tokens": 336,
+      "task_latency_s": 10.205,
+      "context_pollution": 419,
+      "tool_sequence": [
+        "save_checkpoint",
+        "query_db",
+        "query_db",
+        "save_checkpoint",
+        "query_db",
+        "query_db",
+        "query_db",
+        "save_checkpoint",
+        "query_db",
+        "query_db"
+      ],
+      "checkpoints_created": 3,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [
+        "Initial state before migration",
+        "Products table created and seeded",
+        "Categories table created and products assigned categories"
+      ],
+      "injections_applied": [],
+      "recovery_strategy": "checkpoint_unused"
+    }
+  ],
+  "summary": {
+    "standard": {
+      "completion_rate": 1.0,
+      "avg_tool_calls": 8.0,
+      "avg_tokens": 4478.0,
+      "avg_latency_s": 6.695,
+      "avg_context_pollution": 328.0,
+      "avg_checkpoints_created": 0.0,
+      "avg_checkpoints_restored": 0.0,
+      "strategy_distribution": {
+        "manual_only": 1
+      }
+    },
+    "checkpoint": {
+      "completion_rate": 1.0,
+      "avg_tool_calls": 10.0,
+      "avg_tokens": 8081.0,
+      "avg_latency_s": 10.205,
+      "avg_context_pollution": 419.0,
+      "avg_checkpoints_created": 3.0,
+      "avg_checkpoints_restored": 0.0,
+      "strategy_distribution": {
+        "checkpoint_unused": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,751 @@
+{
+  "experiment": "v4_autonomous_recovery",
+  "timestamp": "2026-05-07T16:23:21.860021+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_baseline": 20,
+  "max_tool_calls": 15,
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.378,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 838,
+      "prompt_tokens": 817,
+      "completion_tokens": 21,
+      "recovery_latency_s": 1.972,
+      "context_pollution": 269,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.686,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 2,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.983,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.07,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 3,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 846,
+      "prompt_tokens": 825,
+      "completion_tokens": 21,
+      "recovery_latency_s": 1.548,
+      "context_pollution": 273,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 4,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1705,
+      "prompt_tokens": 1604,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.198,
+      "context_pollution": 278,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 4,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 838,
+      "prompt_tokens": 817,
+      "completion_tokens": 21,
+      "recovery_latency_s": 1.387,
+      "context_pollution": 269,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 5,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 3.606,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 5,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1948,
+      "prompt_tokens": 1868,
+      "completion_tokens": 80,
+      "recovery_latency_s": 2.957,
+      "context_pollution": 329,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 6,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1224,
+      "prompt_tokens": 1151,
+      "completion_tokens": 73,
+      "recovery_latency_s": 2.0,
+      "context_pollution": 275,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 6,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1939,
+      "prompt_tokens": 1862,
+      "completion_tokens": 77,
+      "recovery_latency_s": 2.759,
+      "context_pollution": 329,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 7,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1655,
+      "prompt_tokens": 1569,
+      "completion_tokens": 86,
+      "recovery_latency_s": 3.095,
+      "context_pollution": 282,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 7,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 838,
+      "prompt_tokens": 817,
+      "completion_tokens": 21,
+      "recovery_latency_s": 1.716,
+      "context_pollution": 269,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 8,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1705,
+      "prompt_tokens": 1604,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.566,
+      "context_pollution": 278,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 8,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 846,
+      "prompt_tokens": 825,
+      "completion_tokens": 21,
+      "recovery_latency_s": 1.572,
+      "context_pollution": 273,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 9,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.87,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 9,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 846,
+      "prompt_tokens": 825,
+      "completion_tokens": 21,
+      "recovery_latency_s": 1.696,
+      "context_pollution": 273,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 10,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.283,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 10,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.83,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 11,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.259,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 11,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 1.22,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 12,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1705,
+      "prompt_tokens": 1604,
+      "completion_tokens": 101,
+      "recovery_latency_s": 2.987,
+      "context_pollution": 278,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 12,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.797,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 13,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.144,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 13,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.99,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 14,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.132,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 14,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.929,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 15,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.055,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 15,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 2.285,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 16,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.669,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 16,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.981,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 17,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.391,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 17,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1939,
+      "prompt_tokens": 1862,
+      "completion_tokens": 77,
+      "recovery_latency_s": 2.949,
+      "context_pollution": 329,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 18,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1671,
+      "prompt_tokens": 1585,
+      "completion_tokens": 86,
+      "recovery_latency_s": 3.134,
+      "context_pollution": 286,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 18,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 838,
+      "prompt_tokens": 817,
+      "completion_tokens": 21,
+      "recovery_latency_s": 5.147,
+      "context_pollution": 269,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 1
+    },
+    {
+      "iteration": 19,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.727,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 19,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.945,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 20,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 1.948,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 20,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.82,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    }
+  ],
+  "summary": {
+    "standard": {
+      "success_rate": 1.0,
+      "avg_tool_calls": 2.2,
+      "avg_tokens": 1298.8,
+      "avg_latency_s": 2.61,
+      "avg_context_pollution": 259.6,
+      "strategy_distribution": {
+        "manual_repair": 20
+      }
+    },
+    "snapvm": {
+      "success_rate": 1.0,
+      "avg_tool_calls": 1.6,
+      "avg_tokens": 776.6,
+      "avg_latency_s": 1.724,
+      "avg_context_pollution": 248.9,
+      "strategy_distribution": {
+        "snapshot_restore": 17,
+        "manual_repair": 3
+      }
+    }
+  }
+}
