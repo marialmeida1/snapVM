@@ -415,6 +415,9 @@ def main():
 
     sub.add_parser("clean", help="Tear down network, kill VMs, remove workdir")
 
+    run_v4_p = sub.add_parser("run-v4", help="Execute Experiment 4 (Fair Autonomous Recovery)")
+    run_v4_p.add_argument("--iterations", type=int, default=20, help="Iterations per baseline")
+
     args = parser.parse_args()
 
     if args.command == "setup":
@@ -423,6 +426,9 @@ def main():
         cmd_run(args.baseline, args.mode, args.iterations)
     elif args.command == "diff-test":
         cmd_diff_test()
+    elif args.command == "run-v4":
+        from .experiment_v4 import run_experiment
+        run_experiment(iterations=args.iterations)
     elif args.command == "clean":
         cmd_clean()
 
