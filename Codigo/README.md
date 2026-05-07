@@ -22,6 +22,10 @@ Expect frequent changes to structure, docs, and experiments.
 - `experiments/1_benchmark/benchmark/`: Java benchmark project used in the experiment.
 - `experiments/1_benchmark/docs/`: experiment report and Firecracker-specific notes.
 - `experiments/1_benchmark/scripts/`: experiment automation scripts.
+- `experiments/2_orchestrator_v1/`: validation of the Python orchestrator workflow and rollback baselines.
+- `experiments/2_orchestrator_v1/docs/`: experiment documentation, methodology, and setup guides.
+- `experiments/2_orchestrator_v1/src/`: implementation code for the orchestrator validation.
+- `experiments/2_orchestrator_v1/tests/`: tests for the orchestrator validation.
 
 ## Quick start
 
