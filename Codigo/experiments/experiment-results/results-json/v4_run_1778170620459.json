@@ -1,0 +1,67 @@
+{
+  "experiment": "v4_autonomous_recovery",
+  "timestamp": "2026-05-07T16:17:00.458884+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_baseline": 1,
+  "max_tool_calls": 15,
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 1165,
+      "prompt_tokens": 1106,
+      "completion_tokens": 59,
+      "recovery_latency_s": 2.521,
+      "context_pollution": 251,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair",
+      "diagnosis_calls": 0
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 380,
+      "prompt_tokens": 369,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.791,
+      "context_pollution": 208,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore",
+      "diagnosis_calls": 0
+    }
+  ],
+  "summary": {
+    "standard": {
+      "success_rate": 1.0,
+      "avg_tool_calls": 2.0,
+      "avg_tokens": 1165.0,
+      "avg_latency_s": 2.521,
+      "avg_context_pollution": 251.0,
+      "strategy_distribution": {
+        "manual_repair": 1
+      }
+    },
+    "snapvm": {
+      "success_rate": 1.0,
+      "avg_tool_calls": 1.0,
+      "avg_tokens": 380.0,
+      "avg_latency_s": 0.791,
+      "avg_context_pollution": 208.0,
+      "strategy_distribution": {
+        "snapshot_restore": 1
+      }
+    }
+  }
+}

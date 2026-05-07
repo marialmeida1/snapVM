@@ -1,0 +1,127 @@
+{
+  "experiment": "v5_agent_driven_checkpoints",
+  "timestamp": "2026-05-07T20:21:06.754768+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_baseline": 1,
+  "max_tool_calls": 40,
+  "injection_points": [
+    "after_seed (tool_call ~8)",
+    "after_categories (tool_call ~20)"
+  ],
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "task_completed": false,
+      "validation_detail": "validation error: relation \"categories\" does not exist\nLINE 1: SELECT COUNT(*) FROM categories;\n                             ^\n",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "connection": false
+      },
+      "tool_calls_total": 8,
+      "token_consumption": 4478,
+      "prompt_tokens": 4173,
+      "completion_tokens": 305,
+      "task_latency_s": 6.606,
+      "context_pollution": 328,
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db"
+      ],
+      "checkpoints_created": 0,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [],
+      "injections_applied": [
+        {
+          "type": "after_categories",
+          "at_tool_call": 8,
+          "timestamp": "2026-05-07T20:20:35.537469+00:00"
+        }
+      ],
+      "recovery_strategy": "failed"
+    },
+    {
+      "iteration": 1,
+      "baseline": "checkpoint",
+      "task_completed": false,
+      "validation_detail": "validation error: relation \"categories\" does not exist\nLINE 1: SELECT COUNT(*) FROM categories;\n                             ^\n",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "connection": false
+      },
+      "tool_calls_total": 10,
+      "token_consumption": 8108,
+      "prompt_tokens": 7745,
+      "completion_tokens": 363,
+      "task_latency_s": 11.345,
+      "context_pollution": 446,
+      "tool_sequence": [
+        "save_checkpoint",
+        "query_db",
+        "query_db",
+        "save_checkpoint",
+        "query_db",
+        "query_db",
+        "query_db",
+        "save_checkpoint",
+        "query_db",
+        "query_db"
+      ],
+      "checkpoints_created": 3,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [
+        "Initial state before migration",
+        "Products table created and seeded",
+        "Categories table created and products assigned categories"
+      ],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:20:59.118984+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 8,
+          "timestamp": "2026-05-07T20:21:03.407571+00:00"
+        }
+      ],
+      "recovery_strategy": "failed"
+    }
+  ],
+  "summary": {
+    "standard": {
+      "completion_rate": 0.0,
+      "avg_tool_calls": 8.0,
+      "avg_tokens": 4478.0,
+      "avg_latency_s": 6.606,
+      "avg_context_pollution": 328.0,
+      "avg_checkpoints_created": 0.0,
+      "avg_checkpoints_restored": 0.0,
+      "strategy_distribution": {
+        "failed": 1
+      }
+    },
+    "checkpoint": {
+      "completion_rate": 0.0,
+      "avg_tool_calls": 10.0,
+      "avg_tokens": 8108.0,
+      "avg_latency_s": 11.345,
+      "avg_context_pollution": 446.0,
+      "avg_checkpoints_created": 3.0,
+      "avg_checkpoints_restored": 0.0,
+      "strategy_distribution": {
+        "failed": 1
+      }
+    }
+  }
+}

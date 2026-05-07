@@ -1,0 +1,438 @@
+{
+  "experiment": "v5_agent_driven_checkpoints",
+  "timestamp": "2026-05-07T20:51:45.130761+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_baseline": 3,
+  "max_tool_calls": 40,
+  "injection_points": [
+    "after_seed (tool_call ~8)",
+    "after_categories (tool_call ~20)"
+  ],
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 26,
+      "token_consumption": 50802,
+      "prompt_tokens": 49573,
+      "completion_tokens": 1229,
+      "task_latency_s": 42.681,
+      "context_pollution": 2984,
+      "tool_sequence": [
+        "query_db",
+        "check_health",
+        "execute_bash",
+        "execute_bash",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db"
+      ],
+      "checkpoints_created": 0,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:43:14.372917+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 13,
+          "timestamp": "2026-05-07T20:43:24.468165+00:00"
+        }
+      ],
+      "recovery_strategy": "manual_only"
+    },
+    {
+      "iteration": 1,
+      "baseline": "checkpoint",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 35,
+      "token_consumption": 63890,
+      "prompt_tokens": 62310,
+      "completion_tokens": 1580,
+      "task_latency_s": 117.171,
+      "context_pollution": 2105,
+      "tool_sequence": [
+        "save_checkpoint",
+        "query_db",
+        "check_health",
+        "restore_checkpoint",
+        "query_db",
+        "check_health",
+        "restore_checkpoint",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "check_health",
+        "restore_checkpoint",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db"
+      ],
+      "checkpoints_created": 1,
+      "checkpoints_restored": 3,
+      "checkpoint_labels": [
+        "initial_state_before_migration"
+      ],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:44:05.342900+00:00"
+        },
+        {
+          "type": "after_seed",
+          "at_tool_call": 6,
+          "timestamp": "2026-05-07T20:44:07.288225+00:00"
+        },
+        {
+          "type": "after_seed",
+          "at_tool_call": 24,
+          "timestamp": "2026-05-07T20:45:20.508416+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 28,
+          "timestamp": "2026-05-07T20:45:25.906318+00:00"
+        }
+      ],
+      "recovery_strategy": "checkpoint_restore"
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "task_completed": false,
+      "validation_detail": "validation error: column \"category_id\" does not exist\nLINE 1: SELECT id, name, price, category_id FROM products LIMIT 1;\n                                ^\n",
+      "validation_checks": {
+        "connection": false
+      },
+      "tool_calls_total": 23,
+      "token_consumption": 50553,
+      "prompt_tokens": 49367,
+      "completion_tokens": 1186,
+      "task_latency_s": 168.463,
+      "context_pollution": 3425,
+      "tool_sequence": [
+        "query_db",
+        "check_health",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "check_health",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "check_health",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "execute_bash",
+        "check_health"
+      ],
+      "checkpoints_created": 0,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:46:57.599480+00:00"
+        }
+      ],
+      "recovery_strategy": "failed"
+    },
+    {
+      "iteration": 2,
+      "baseline": "checkpoint",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 21,
+      "token_consumption": 29787,
+      "prompt_tokens": 28745,
+      "completion_tokens": 1042,
+      "task_latency_s": 24.028,
+      "context_pollution": 1382,
+      "tool_sequence": [
+        "save_checkpoint",
+        "query_db",
+        "check_health",
+        "restore_checkpoint",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db"
+      ],
+      "checkpoints_created": 1,
+      "checkpoints_restored": 1,
+      "checkpoint_labels": [
+        "Initial state before migration"
+      ],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:49:07.809040+00:00"
+        },
+        {
+          "type": "after_seed",
+          "at_tool_call": 8,
+          "timestamp": "2026-05-07T20:49:14.294730+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 12,
+          "timestamp": "2026-05-07T20:49:18.396985+00:00"
+        }
+      ],
+      "recovery_strategy": "checkpoint_restore"
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 24,
+      "token_consumption": 41304,
+      "prompt_tokens": 40165,
+      "completion_tokens": 1139,
+      "task_latency_s": 64.792,
+      "context_pollution": 2964,
+      "tool_sequence": [
+        "query_db",
+        "check_health",
+        "execute_bash",
+        "execute_bash",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db"
+      ],
+      "checkpoints_created": 0,
+      "checkpoints_restored": 0,
+      "checkpoint_labels": [],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:49:42.048791+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 14,
+          "timestamp": "2026-05-07T20:49:54.367814+00:00"
+        }
+      ],
+      "recovery_strategy": "manual_only"
+    },
+    {
+      "iteration": 3,
+      "baseline": "checkpoint",
+      "task_completed": true,
+      "validation_detail": "products_schema=OK; valid_rows=OK; categories_exist=OK; index_exists=OK",
+      "validation_checks": {
+        "products_schema": true,
+        "valid_rows": true,
+        "categories_exist": true,
+        "index_exists": true
+      },
+      "tool_calls_total": 24,
+      "token_consumption": 32503,
+      "prompt_tokens": 31364,
+      "completion_tokens": 1139,
+      "task_latency_s": 52.468,
+      "context_pollution": 1284,
+      "tool_sequence": [
+        "save_checkpoint",
+        "query_db",
+        "check_health",
+        "restore_checkpoint",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "check_health",
+        "query_db",
+        "restore_checkpoint",
+        "query_db",
+        "check_health",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "query_db",
+        "check_health",
+        "query_db"
+      ],
+      "checkpoints_created": 1,
+      "checkpoints_restored": 2,
+      "checkpoint_labels": [
+        "Initial state before migration"
+      ],
+      "injections_applied": [
+        {
+          "type": "after_seed",
+          "at_tool_call": 3,
+          "timestamp": "2026-05-07T20:50:54.802005+00:00"
+        },
+        {
+          "type": "after_seed",
+          "at_tool_call": 6,
+          "timestamp": "2026-05-07T20:50:56.533321+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 10,
+          "timestamp": "2026-05-07T20:51:01.980115+00:00"
+        },
+        {
+          "type": "after_seed",
+          "at_tool_call": 14,
+          "timestamp": "2026-05-07T20:51:07.369415+00:00"
+        },
+        {
+          "type": "after_categories",
+          "at_tool_call": 17,
+          "timestamp": "2026-05-07T20:51:15.905593+00:00"
+        }
+      ],
+      "recovery_strategy": "checkpoint_restore"
+    }
+  ],
+  "summary": {
+    "standard": {
+      "completion_rate": 0.67,
+      "avg_tool_calls": 24.3,
+      "avg_tokens": 47553.0,
+      "avg_latency_s": 91.979,
+      "avg_context_pollution": 3124.3,
+      "avg_checkpoints_created": 0.0,
+      "avg_checkpoints_restored": 0.0,
+      "strategy_distribution": {
+        "manual_only": 2,
+        "failed": 1
+      }
+    },
+    "checkpoint": {
+      "completion_rate": 1.0,
+      "avg_tool_calls": 26.7,
+      "avg_tokens": 42060.0,
+      "avg_latency_s": 64.556,
+      "avg_context_pollution": 1590.3,
+      "avg_checkpoints_created": 1.0,
+      "avg_checkpoints_restored": 2.0,
+      "strategy_distribution": {
+        "checkpoint_restore": 3
+      }
+    }
+  }
+}

@@ -1,0 +1,994 @@
+{
+  "experiment": "v4_1_complex_stateful_failures",
+  "timestamp": "2026-05-07T17:53:33.143874+00:00",
+  "model": "gpt-4o",
+  "temperature": 0,
+  "iterations_per_scenario": 4,
+  "max_tool_calls": 25,
+  "scenarios": [
+    {
+      "id": "F1",
+      "name": "multi_table_corruption",
+      "description": "Drop users table + insert corrupt data into a new rogue table",
+      "complexity": 2
+    },
+    {
+      "id": "F2",
+      "name": "process_and_config",
+      "description": "Kill Node.js process + corrupt the server.js file",
+      "complexity": 2
+    },
+    {
+      "id": "F3",
+      "name": "schema_and_data_corruption",
+      "description": "Alter column type + insert invalid data that breaks queries",
+      "complexity": 2
+    },
+    {
+      "id": "F4",
+      "name": "permissions_and_schema",
+      "description": "Drop users table + revoke DB user permissions",
+      "complexity": 2
+    },
+    {
+      "id": "F5",
+      "name": "cascading_service_failure",
+      "description": "Truncate table + kill PostgreSQL + remove PG socket",
+      "complexity": 3
+    }
+  ],
+  "results": [
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1760,
+      "prompt_tokens": 1658,
+      "completion_tokens": 102,
+      "recovery_latency_s": 3.641,
+      "context_pollution": 292,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 833,
+      "prompt_tokens": 804,
+      "completion_tokens": 29,
+      "recovery_latency_s": 1.597,
+      "context_pollution": 244,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1726,
+      "prompt_tokens": 1651,
+      "completion_tokens": 75,
+      "recovery_latency_s": 3.052,
+      "context_pollution": 294,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "snapvm",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 833,
+      "prompt_tokens": 804,
+      "completion_tokens": 29,
+      "recovery_latency_s": 2.02,
+      "context_pollution": 244,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 4.532,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "snapvm",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 4,
+      "token_consumption": 2542,
+      "prompt_tokens": 2453,
+      "completion_tokens": 89,
+      "recovery_latency_s": 3.666,
+      "context_pollution": 331,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "standard",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1760,
+      "prompt_tokens": 1658,
+      "completion_tokens": 102,
+      "recovery_latency_s": 3.489,
+      "context_pollution": 292,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "snapvm",
+      "scenario_id": "F1",
+      "scenario_name": "multi_table_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 4,
+      "token_consumption": 2542,
+      "prompt_tokens": 2453,
+      "completion_tokens": 89,
+      "recovery_latency_s": 3.627,
+      "context_pollution": 331,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.863,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 1.124,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 4.124,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "snapvm",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.797,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1760,
+      "prompt_tokens": 1658,
+      "completion_tokens": 102,
+      "recovery_latency_s": 3.282,
+      "context_pollution": 292,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "snapvm",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 4,
+      "token_consumption": 2542,
+      "prompt_tokens": 2453,
+      "completion_tokens": 89,
+      "recovery_latency_s": 3.95,
+      "context_pollution": 331,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "standard",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.612,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "snapvm",
+      "scenario_id": "F2",
+      "scenario_name": "process_and_config",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 2,
+      "token_consumption": 833,
+      "prompt_tokens": 804,
+      "completion_tokens": 29,
+      "recovery_latency_s": 1.464,
+      "context_pollution": 244,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 743,
+      "prompt_tokens": 689,
+      "completion_tokens": 54,
+      "recovery_latency_s": 1.414,
+      "context_pollution": 255,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 820,
+      "prompt_tokens": 771,
+      "completion_tokens": 49,
+      "recovery_latency_s": 1.521,
+      "context_pollution": 250,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 730,
+      "prompt_tokens": 689,
+      "completion_tokens": 41,
+      "recovery_latency_s": 1.599,
+      "context_pollution": 242,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "snapvm",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 814,
+      "prompt_tokens": 771,
+      "completion_tokens": 43,
+      "recovery_latency_s": 1.703,
+      "context_pollution": 244,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 743,
+      "prompt_tokens": 689,
+      "completion_tokens": 54,
+      "recovery_latency_s": 1.46,
+      "context_pollution": 255,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "snapvm",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 817,
+      "prompt_tokens": 771,
+      "completion_tokens": 46,
+      "recovery_latency_s": 2.298,
+      "context_pollution": 247,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "standard",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 743,
+      "prompt_tokens": 689,
+      "completion_tokens": 54,
+      "recovery_latency_s": 1.868,
+      "context_pollution": 255,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "snapvm",
+      "scenario_id": "F3",
+      "scenario_name": "schema_and_data_corruption",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 820,
+      "prompt_tokens": 771,
+      "completion_tokens": 49,
+      "recovery_latency_s": 1.825,
+      "context_pollution": 250,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.886,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 4,
+      "token_consumption": 2650,
+      "prompt_tokens": 2529,
+      "completion_tokens": 121,
+      "recovery_latency_s": 4.034,
+      "context_pollution": 362,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.164,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "snapvm",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.805,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.965,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "snapvm",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 384,
+      "prompt_tokens": 373,
+      "completion_tokens": 11,
+      "recovery_latency_s": 0.925,
+      "context_pollution": 212,
+      "first_action": "restore_last_snapshot",
+      "tool_sequence": [
+        "restore_last_snapshot"
+      ],
+      "recovery_strategy": "snapshot_restore"
+    },
+    {
+      "iteration": 4,
+      "baseline": "standard",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 3,
+      "token_consumption": 1757,
+      "prompt_tokens": 1656,
+      "completion_tokens": 101,
+      "recovery_latency_s": 3.426,
+      "context_pollution": 291,
+      "first_action": "query_db",
+      "tool_sequence": [
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "snapvm",
+      "scenario_id": "F4",
+      "scenario_name": "permissions_and_schema",
+      "failure_complexity": 2,
+      "recovery_success": true,
+      "tool_calls_total": 4,
+      "token_consumption": 2638,
+      "prompt_tokens": 2521,
+      "completion_tokens": 117,
+      "recovery_latency_s": 4.951,
+      "context_pollution": 358,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health",
+        "query_db",
+        "query_db",
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "standard",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 744,
+      "prompt_tokens": 689,
+      "completion_tokens": 55,
+      "recovery_latency_s": 1.557,
+      "context_pollution": 256,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 1,
+      "baseline": "snapvm",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 817,
+      "prompt_tokens": 771,
+      "completion_tokens": 46,
+      "recovery_latency_s": 1.408,
+      "context_pollution": 247,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "standard",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 743,
+      "prompt_tokens": 689,
+      "completion_tokens": 54,
+      "recovery_latency_s": 1.54,
+      "context_pollution": 255,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 2,
+      "baseline": "snapvm",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 817,
+      "prompt_tokens": 771,
+      "completion_tokens": 46,
+      "recovery_latency_s": 1.446,
+      "context_pollution": 247,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "standard",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 743,
+      "prompt_tokens": 689,
+      "completion_tokens": 54,
+      "recovery_latency_s": 1.629,
+      "context_pollution": 255,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 3,
+      "baseline": "snapvm",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 814,
+      "prompt_tokens": 771,
+      "completion_tokens": 43,
+      "recovery_latency_s": 1.961,
+      "context_pollution": 244,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "standard",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 738,
+      "prompt_tokens": 689,
+      "completion_tokens": 49,
+      "recovery_latency_s": 1.836,
+      "context_pollution": 250,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    },
+    {
+      "iteration": 4,
+      "baseline": "snapvm",
+      "scenario_id": "F5",
+      "scenario_name": "cascading_service_failure",
+      "failure_complexity": 3,
+      "recovery_success": true,
+      "tool_calls_total": 1,
+      "token_consumption": 814,
+      "prompt_tokens": 771,
+      "completion_tokens": 43,
+      "recovery_latency_s": 1.76,
+      "context_pollution": 244,
+      "first_action": "check_health",
+      "tool_sequence": [
+        "check_health"
+      ],
+      "recovery_strategy": "manual_repair"
+    }
+  ],
+  "summary": {
+    "overall": {
+      "standard": {
+        "success_rate": 1.0,
+        "avg_tool_calls": 2.2,
+        "avg_tokens": 1349.5,
+        "avg_latency_s": 2.847,
+        "avg_context_pollution": 276.1,
+        "strategy_distribution": {
+          "manual_repair": 20
+        }
+      },
+      "snapvm": {
+        "success_rate": 1.0,
+        "avg_tool_calls": 1.9,
+        "avg_tokens": 1174.1,
+        "avg_latency_s": 2.144,
+        "avg_context_pollution": 263.3,
+        "strategy_distribution": {
+          "snapshot_restore": 7,
+          "manual_repair": 13
+        }
+      }
+    },
+    "per_scenario": {
+      "F1": {
+        "name": "multi_table_corruption",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1750.8,
+          "avg_latency_s": 3.679,
+          "avg_context_pollution": 292.2,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1687.5,
+          "avg_latency_s": 2.728,
+          "avg_context_pollution": 287.5,
+          "strategy_distribution": {
+            "snapshot_restore": 2,
+            "manual_repair": 2
+          }
+        }
+      },
+      "F2": {
+        "name": "process_and_config",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1757.8,
+          "avg_latency_s": 3.72,
+          "avg_context_pollution": 291.2,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 2.0,
+          "avg_tokens": 1035.8,
+          "avg_latency_s": 1.834,
+          "avg_context_pollution": 249.8,
+          "strategy_distribution": {
+            "snapshot_restore": 3,
+            "manual_repair": 1
+          }
+        }
+      },
+      "F3": {
+        "name": "schema_and_data_corruption",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 739.8,
+          "avg_latency_s": 1.585,
+          "avg_context_pollution": 251.8,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 817.8,
+          "avg_latency_s": 1.837,
+          "avg_context_pollution": 247.8,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        }
+      },
+      "F4": {
+        "name": "permissions_and_schema",
+        "complexity": 2,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 3.0,
+          "avg_tokens": 1757.0,
+          "avg_latency_s": 3.61,
+          "avg_context_pollution": 291.0,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 2.5,
+          "avg_tokens": 1514.0,
+          "avg_latency_s": 2.679,
+          "avg_context_pollution": 286.0,
+          "strategy_distribution": {
+            "manual_repair": 2,
+            "snapshot_restore": 2
+          }
+        }
+      },
+      "F5": {
+        "name": "cascading_service_failure",
+        "complexity": 3,
+        "standard": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 742.0,
+          "avg_latency_s": 1.641,
+          "avg_context_pollution": 254.0,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        },
+        "snapvm": {
+          "success_rate": 1.0,
+          "avg_tool_calls": 1.0,
+          "avg_tokens": 815.5,
+          "avg_latency_s": 1.644,
+          "avg_context_pollution": 245.5,
+          "strategy_distribution": {
+            "manual_repair": 4
+          }
+        }
+      }
+    }
+  }
+}
