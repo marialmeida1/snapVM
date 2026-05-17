@@ -15,16 +15,23 @@ import tiktoken
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from . import contract, network, snapshot
+from . import contract, snapshot
+from .config import (
+    DB_CONN,
+    EXEC_URL,
+    HEALTH_URL,
+    KERNEL_PATH,
+    RESULTS_DIR,
+    ROOTFS_PATH,
+    RUN_ROOTFS_PATH,
+)
 from .firecracker_client import FirecrackerClient
 
 load_dotenv()
 
-GUEST_IP = network.GUEST_IP
-DB_CONN = dict(host=GUEST_IP, port=5432, user="admin", password="admin", dbname="app_db")
-KERNEL = "images/vmlinux"
-ROOTFS = "images/rootfs.ext4"
-RESULTS_DIR = "results"
+KERNEL = KERNEL_PATH
+ROOTFS = ROOTFS_PATH
+RUN_ROOTFS = RUN_ROOTFS_PATH
 MAX_TOOL_CALLS = 15
 
 SYSTEM_PROMPT = (
@@ -146,7 +153,7 @@ class FairAgentLoop:
     def _tool_execute_bash(self, command):
         try:
             resp = requests.post(
-                f"http://{GUEST_IP}:3000/exec",
+                EXEC_URL,
                 json={"command": command}, timeout=10
             )
             data = resp.json()
@@ -256,14 +263,11 @@ def _db_exec(sql, retries=30, delay=2):
 def _wait_for_guest(retries=30, delay=2):
     for _ in range(retries):
         try:
-            requests.get(f"http://{GUEST_IP}:3000/health", timeout=2)
+            requests.get(HEALTH_URL, timeout=2)
             return True
         except requests.RequestException:
             time.sleep(delay)
     return False
-
-
-RUN_ROOTFS = "images/rootfs_run.ext4"
 
 def _boot_vm(client, track_dirty_pages=False):
     # Copy fresh rootfs for this trial to ensure isolation

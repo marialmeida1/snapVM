@@ -12,7 +12,8 @@ from datetime import datetime, timezone
 import psycopg2
 import requests
 
-from . import contract, network, snapshot
+from . import contract, snapshot
+from .config import EXEC_URL
 from .experiment_v4 import (
     FairAgentLoop,
     SYSTEM_PROMPT,
@@ -21,7 +22,6 @@ from .experiment_v4 import (
     TOOL_CHECK_HEALTH,
     TOOL_QUERY_DB,
     TOOL_RESTORE_SNAPSHOT,
-    GUEST_IP,
     DB_CONN,
     KERNEL,
     ROOTFS,
@@ -79,7 +79,7 @@ def _inject_failure(scenario_id):
 
     elif scenario_id == "F2":
         # Kill Node.js and corrupt server.js
-        requests.post(f"http://{GUEST_IP}:3000/exec",
+        requests.post(EXEC_URL,
                       json={"command": "pkill -f 'node server.js'"}, timeout=5)
         # Wait a moment for process to die, then corrupt the file
         time.sleep(0.5)
@@ -104,11 +104,11 @@ def _inject_failure(scenario_id):
     elif scenario_id == "F5":
         _db_exec("TRUNCATE users;")
         # Kill PostgreSQL via the exec endpoint (server still alive at this point)
-        requests.post(f"http://{GUEST_IP}:3000/exec",
+        requests.post(EXEC_URL,
                       json={"command": "pkill -9 postgres"}, timeout=5)
         time.sleep(0.5)
         # Remove PG socket to make reconnection harder
-        requests.post(f"http://{GUEST_IP}:3000/exec",
+        requests.post(EXEC_URL,
                       json={"command": "rm -rf /var/run/postgresql/.s.PGSQL.5432"}, timeout=5)
 
 

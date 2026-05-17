@@ -2,9 +2,8 @@
 
 import requests
 
-from .network import GUEST_IP
+from .config import HEALTH_URL
 
-HEALTH_URL = f"http://{GUEST_IP}:3000/health"
 PROBE_TIMEOUT = 5
 
 

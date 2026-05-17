@@ -12,14 +12,8 @@ import requests
 
 from . import contract, network, snapshot
 from .agent import AgentLoop
+from .config import DB_CONN, GUEST_IP, HEALTH_URL, KERNEL_PATH, RESULTS_DIR, ROOTFS_PATH, WORKDIR
 from .firecracker_client import FirecrackerClient
-
-GUEST_IP = network.GUEST_IP
-DB_CONN = dict(host=GUEST_IP, port=5432, user="admin", password="admin", dbname="app_db")
-WORKDIR = "workdir"
-KERNEL = "images/vmlinux"
-ROOTFS = "images/rootfs.ext4"
-RESULTS_DIR = "results"
 
 SYSTEM_PROMPT = """You are an AI engineer tasked with managing a stateful microVM environment.
 Your goal is to ensure the database and Node.js server are healthy.
@@ -51,7 +45,7 @@ def _wait_for_guest(retries=30, delay=2):
     """Block until the guest /health endpoint is reachable (even if unhealthy)."""
     for _ in range(retries):
         try:
-            requests.get(f"http://{GUEST_IP}:3000/health", timeout=2)
+            requests.get(HEALTH_URL, timeout=2)
             return True
         except requests.RequestException:
             time.sleep(delay)
@@ -123,8 +117,8 @@ def _penalty_routine():
 def _boot_vm(client, track_dirty_pages=False):
     client.spawn()
     client.set_machine_config(vcpu_count=1, mem_size_mib=256, track_dirty_pages=track_dirty_pages)
-    client.set_boot_source(KERNEL)
-    client.set_rootfs(ROOTFS)
+    client.set_boot_source(KERNEL_PATH)
+    client.set_rootfs(ROOTFS_PATH)
     client.set_network()
     client.start()
     if not _wait_for_guest():

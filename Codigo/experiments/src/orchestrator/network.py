@@ -2,9 +2,7 @@
 
 import subprocess
 
-HOST_IP = "172.16.0.1/24"
-GUEST_IP = "172.16.0.2"
-TAP_NAME = "vmtap0"
+from .config import GUEST_IP, HOST_IP, TAP_NAME
 
 
 def _run(cmd):

@@ -14,32 +14,33 @@ Expect frequent changes to structure, docs, and experiments.
 
 - `snapvm/`: reserved module for the future main SnapVM implementation.
 - `docs/`: general project documentation shared across the repository.
-- `experiments/`: isolated experiments, each with its own docs, scripts, and support files.
+- `experiments/`: isolated experiment code, methodology, setup notes, and result artifacts.
 
 ## Current experiment layout
 
-- `experiments/1_benchmark/`: Firecracker benchmark experiment.
-- `experiments/1_benchmark/benchmark/`: Java benchmark project used in the experiment.
-- `experiments/1_benchmark/docs/`: experiment report and Firecracker-specific notes.
-- `experiments/1_benchmark/scripts/`: experiment automation scripts.
-- `experiments/2_orchestrator_v1/`: validation of the Python orchestrator workflow and rollback baselines.
-- `experiments/2_orchestrator_v1/docs/`: experiment documentation, methodology, and setup guides.
-- `experiments/2_orchestrator_v1/src/`: implementation code for the orchestrator validation.
-- `experiments/2_orchestrator_v1/tests/`: tests for the orchestrator validation.
+- `experiments/src/`: orchestrator implementation and experiment entrypoints.
+- `experiments/src/orchestrator/`: Firecracker client, snapshot engine, network setup, health contract, and V4-V6 experiment modules.
+- `experiments/tests/`: automated tests for the orchestrator validation flow.
+- `experiments/experiment-results/`: experiment write-ups and exported JSON results.
+- `experiments/experiments-specs/`: formal experiment specifications.
+- `experiments/environment/`: setup and replication guides for the host environment.
+- `experiments/methodology/`: evaluation metrics and trial limitations.
+- `experiments/2_orchestrator/`: legacy documentation folder kept for historical context.
 
 ## Quick start
 
-Move into the benchmark experiment directory:
+Move into the orchestrator experiment directory:
 
 ```bash
-cd Codigo/experiments/1_benchmark
-make clone-firecracker
+cd Codigo/experiments
 ```
 
-This will clone:
+Install the Python dependencies declared for the experiments:
 
-- `https://github.com/firecracker-microvm/firecracker`
+```bash
+python3 -m pip install -r requirements.txt
+```
 
-into:
+The main orchestrator code lives under:
 
-- `./firecracker`
+- `Codigo/experiments/src/orchestrator/`
