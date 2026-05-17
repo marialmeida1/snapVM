@@ -36,8 +36,8 @@ Documentation:
 
 Experiments:
 
-- `experiments/1_benchmark/docs/1.firecracker-benchmark.md`
-- future experiment reports under `experiments/*/docs/`
+- `experiments/experiment-results/01-baseline-benchmarks.md`
+- future experiment reports under `experiments/experiment-results/`
 
 ## Expected Outcome
 

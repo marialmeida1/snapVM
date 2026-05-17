@@ -79,10 +79,15 @@ The current research directions include a bare-metal host orchestrating isolated
 
 # Experiment Structure
 
-The repository currently separates validations into self-contained experiment directories:
+The repository currently separates validations into self-contained experiment areas:
 
-- **`Codigo/experiments/1_benchmark/`**: Firecracker benchmark validation with Java workload, experiment report, scripts, and Firecracker-specific notes.
-- **`Codigo/experiments/2_orchestrator_v1/`**: orchestrator validation comparing Git-based rollback and Firecracker snapshot restoration, including docs, source code, tests, guest image assets, and setup scripts.
+- **`Codigo/experiments/src/`**: Python orchestrator implementation, including the Firecracker client, snapshot engine, contract validation, and experiment entrypoints.
+- **`Codigo/experiments/tests/`**: automated tests for the orchestrator and snapshot lifecycle.
+- **`Codigo/experiments/experiments-specs/`**: specifications for experiment phases such as autonomous recovery, forced snapshots, checkpoints, and exploration branching.
+- **`Codigo/experiments/experiment-results/`**: experiment reports and exported JSON result files.
+- **`Codigo/experiments/environment/`**: environment setup and replication guides for the Firecracker-based experiments.
+- **`Codigo/experiments/methodology/`**: evaluation metrics, trial design, and limitations documentation.
+- **`Codigo/experiments/2_orchestrator/`**: legacy documentation folder preserved for the orchestrator experiment narrative.
 
 This structure keeps experiment-specific assets isolated from the future `snapvm` product module.
 
@@ -128,8 +133,9 @@ Refine the prototype, complete missing functionality, and finalize the project d
 # Where To Look
 
 - General concepts and roadmap: `Codigo/docs/`
-- Firecracker benchmark validation: `Codigo/experiments/1_benchmark/`
-- Orchestrator rollback validation: `Codigo/experiments/2_orchestrator_v1/`
+- Orchestrator implementation and CLI experiments: `Codigo/experiments/src/`
+- Experiment reports and exported results: `Codigo/experiments/experiment-results/`
+- Replication, setup, and methodology: `Codigo/experiments/environment/` and `Codigo/experiments/methodology/`
 
 ---
 
