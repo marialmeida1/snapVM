@@ -14,16 +14,13 @@ from datetime import datetime, timezone
 import psycopg2
 import requests
 
-from . import contract, network, snapshot
+from . import contract, snapshot
 from .experiment_v4 import (
     FairAgentLoop,
     TOOL_EXECUTE_BASH,
     TOOL_CHECK_HEALTH,
     TOOL_QUERY_DB,
-    GUEST_IP,
     DB_CONN,
-    KERNEL,
-    ROOTFS,
     RESULTS_DIR,
     _boot_vm,
     _db_exec,

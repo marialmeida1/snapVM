@@ -3,7 +3,8 @@
 import os
 import time
 
-SNAPSHOT_DIR = "images/snapshots"
+from .config import SNAPSHOT_DIR
+
 MEM_FILE = os.path.join(SNAPSHOT_DIR, "memory.bin")
 SNAPSHOT_FILE = os.path.join(SNAPSHOT_DIR, "vmstate")
 

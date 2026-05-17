@@ -10,13 +10,10 @@ import tiktoken
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from . import network
+from .config import DB_CONN, EXEC_URL, GUEST_IP, HEALTH_URL
 
 # Load environment variables from .env if it exists
 load_dotenv()
-
-GUEST_IP = network.GUEST_IP
-DB_CONN = dict(host=GUEST_IP, port=5432, user="admin", password="admin", dbname="app_db")
 
 
 class AgentLoop:
@@ -104,7 +101,7 @@ class AgentLoop:
         elif name == "execute_bash":
             try:
                 resp = requests.post(
-                    f"http://{GUEST_IP}:3000/exec",
+                    EXEC_URL,
                     json={"command": args["command"]},
                     timeout=5
                 )
@@ -114,7 +111,7 @@ class AgentLoop:
         
         elif name == "check_health":
             try:
-                resp = requests.get(f"http://{GUEST_IP}:3000/health", timeout=2)
+                resp = requests.get(HEALTH_URL, timeout=2)
                 return resp.text
             except Exception as e:
                 return f"Health Error: {str(e)}"

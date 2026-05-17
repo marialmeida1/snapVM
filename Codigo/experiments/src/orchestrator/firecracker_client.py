@@ -7,8 +7,10 @@ import time
 
 import requests_unixsocket
 
-DEFAULT_SOCKET = "/tmp/firecracker.socket"
-DEFAULT_PID_FILE = "/tmp/firecracker.pid"
+from .config import FIRECRACKER_PID_FILE, FIRECRACKER_SOCKET_PATH
+
+DEFAULT_SOCKET = FIRECRACKER_SOCKET_PATH
+DEFAULT_PID_FILE = FIRECRACKER_PID_FILE
 
 
 class FirecrackerClient:

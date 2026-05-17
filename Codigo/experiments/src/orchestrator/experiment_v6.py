@@ -13,16 +13,14 @@ from datetime import datetime, timezone
 import psycopg2
 import requests
 
-from . import contract, network, snapshot
+from . import contract, snapshot
+from .config import HEALTH_URL
 from .experiment_v4 import (
     FairAgentLoop,
     TOOL_EXECUTE_BASH,
     TOOL_CHECK_HEALTH,
     TOOL_QUERY_DB,
-    GUEST_IP,
     DB_CONN,
-    KERNEL,
-    ROOTFS,
     RESULTS_DIR,
     _boot_vm,
     _db_exec,
@@ -132,7 +130,7 @@ def _setup_broken_environment():
 def _verify_health_fixed():
     """Check if health endpoint responds successfully (not timeout)."""
     try:
-        r = requests.get(f"http://{GUEST_IP}:3000/health", timeout=5)
+        r = requests.get(HEALTH_URL, timeout=5)
         if r.status_code == 200:
             body = r.json()
             return body.get("status") == "healthy", f"status={body.get('status')}"
