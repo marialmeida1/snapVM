@@ -122,3 +122,26 @@ python -m src.orchestrator.main clean
 - Git baseline always fails post-reset health check (proves stateful flaw)
 - Agent tools are generic (`execute_bash`, `check_health`, `restore_last_snapshot`) — not DB-specific
 - Only one healthy snapshot maintained at a time (`last_known_good`)
+
+## Analysis and Results (`analysis/`)
+
+Contains notebooks and data for processing JSON results and generating figures for V4 and V5 experiments.
+
+| Path | Purpose |
+|------|---------|
+| `00_etl_consolidation.ipynb` | ETL pipeline: consolidates `results-json/` into `data/processed_trials.csv` |
+| `01_v4_analysis.ipynb` | Statistical analysis for V4 (Autonomous Recovery) |
+| `02_v5_analysis.ipynb` | Statistical analysis for V5 (Agent-Driven Checkpoints) |
+| `data/processed_trials.csv` | Consolidated flat-file data for all experimental trials |
+
+### Visualization Artifacts (`figures/`)
+
+| File | Type | Description |
+|------|------|-------------|
+| `v4_latency_boxplot.png` | Boxplot | Recovery latency: Standard vs SnapVM (V4) |
+| `v4_tokens_boxplot.png` | Boxplot | Token consumption: Standard vs SnapVM (V4) |
+| `v4_strategy_pie.png` | Pie | Agent recovery strategies distribution |
+| `v5_success_rate.png` | Bar | Task completion rate (Reliability) |
+| `v5_success_strip.png` | Strip | Individual trial distribution (Transparency) |
+| `v5_context_pollution.png` | Bar+Strip | Context hygiene metrics (Overlaid) |
+| `v5_tokens_violin.png` | Violin+Strip | Token efficiency distribution (Overlaid) |
