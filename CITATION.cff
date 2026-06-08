@@ -1,31 +1,32 @@
-cff-version: 1.0.1
-message: Please cite this software using these metadata.
-title: 
+cff-version: 1.2.0
+message: "If you use SnapVM, please cite it using these metadata."
+title: "SnapVM"
+abstract: "SnapVM is an experimental research prototype for orchestrating Firecracker microVM snapshots and evaluating snapshot-based recovery for stateful execution environments and AI-agent workflows."
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names:
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
+  - family-names: "Carvalho"
+    given-names: "Arthur"
+  - family-names: "Silva"
+    given-names: "Debora"
+  - family-names: "Castro"
+    given-names: "Gustavo"
+  - family-names: "Almeida"
+    given-names: "Mariana"
+  - name-suffix: "Professor"
+    affiliation: "PUC Minas"
+    family-names: "Alcântara"
+    given-names: "Matheus"
+  - name-suffix: "Professor"
+    affiliation: "PUC Minas"
+    family-names: "Domingos"
+    given-names: "Felipe"
 keywords:
-  - 
-  - 
-repository-code: 
+  - "Firecracker"
+  - "microVM"
+  - "snapshots"
+  - "stateful recovery"
+  - "AI agents"
+  - "rollback"
+repository-code: "https://github.com/ICEI-PUC-Minas-CC-TI/plmg-cc-ti5-2026-1-snapvm"
 license: CC-BY-4.0
-version: 1.0.0
-date-released: 2022-07-14
+version: 0.1.0
+date-released: 2026-05-17
