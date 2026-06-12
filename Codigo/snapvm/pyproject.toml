@@ -1,0 +1,14 @@
+[project]
+name = "snapvm-mcp"
+version = "0.1.0"
+description = "MCP server exposing SnapVM microVM lifecycle, checkpoint/restore, and execution tools"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]==1.9.2",
+    "requests==2.32.3",
+    "requests-unixsocket==0.3.0",
+    "psycopg2-binary==2.9.10",
+]
+
+[project.scripts]
+snapvm-mcp = "snapvm_mcp.server:main"
